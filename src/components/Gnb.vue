@@ -104,9 +104,6 @@
 </template>
 
 <script>
-// load js
-import $ from 'jquery';
-
 export default {
     data:function() {
         return {

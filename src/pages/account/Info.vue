@@ -1,5 +1,6 @@
 <template>
     <Layout>
+        개인별 관리
     </Layout>
 </template>
 
