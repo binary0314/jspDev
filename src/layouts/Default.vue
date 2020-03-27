@@ -53,19 +53,30 @@ export default {
         Gnb,
         Lnb
     },
-    data:function() {
+    data: function() {
         return {
-            pathname:window.location.pathname
+            pathname: null
+        };
+    },
+    methods: {
+        setData: function() {
+            if (typeof window !== "undefined") {
+                this.pathname = window.location.pathname;
+            }
+        },
+        pageInit: function() {
+            $(".js-fullheight").css("height", $(window).height());
+            $(window).resize(function() {
+                $(".js-fullheight").css("height", $(window).height());
+            });
+            $("#sidebarCollapse").on("click", function() {
+                $("#sidebar").toggleClass("active");
+            });
         }
     },
-    mounted:function() {
-        $('.js-fullheight').css('height', $(window).height());
-        $(window).resize(function(){
-            $('.js-fullheight').css('height', $(window).height());
-        });
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
+    mounted: function() {
+        this.pageInit();
+        this.setData();
     }
 };
 </script>

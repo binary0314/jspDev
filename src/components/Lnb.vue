@@ -14,12 +14,22 @@
 
 <script>
 export default {
-    data:function() {
+    data: function() {
         return {
-            pathname:window.location.pathname
+            pathname: null
+        };
+    },
+    methods: {
+        setData: function() {
+            if (typeof window !== "undefined") {
+                this.pathname = window.location.pathname;
+            }
         }
+    },
+    mounted: function() {
+        this.setData();
     }
-}
+};
 </script>
 
 <style>
