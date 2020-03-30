@@ -1,5 +1,5 @@
 <template>
-    <div class="row no-gutters sticky-top">
+    <div id="menuGnb" class="row no-gutters sticky-top">
         <div class="col-md-12">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <g-link class="navbar-brand" to="/">GOMS</g-link>
@@ -11,7 +11,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3 active" href="#" role="button" data-toggle="dropdown">
-                                계정관리
+                                {{ $t(message.menus[0].name) }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/account/staff">임직원 계정관리</g-link>
@@ -107,7 +107,111 @@
 export default {
     data: function() {
         return {
-            pathname: null
+            pathname: null,
+            messages: {
+                kr: {
+                    message: {
+                        menus: [
+                            {
+                                'name':'계정관리',
+                                'child': [
+                                    {
+                                        'name':'임직원 계정관리'
+                                    },
+                                    {
+                                        'name':'메뉴별 권한설정'
+                                    },
+                                    {
+                                        'name':'개인별 관리 (사용자 정보관리 - My Menu)'
+                                    }
+                                ]
+                            },
+                            {
+                                'name':'Platform 관리',
+                                'child': [
+                                    {
+                                        'name':'기본상품관리 - Platform 관리'
+                                    },
+                                    {
+                                        'name':'판매상품관리 - Platform 프로모션'
+                                    },
+                                    {
+                                        'name':'세팅서버 관리'
+                                    }
+                                ]
+                            },
+                            {
+                                'name':'Platform 신청 관리',
+                                'child': [
+                                    {
+                                        'name':'hopby 신청 List'
+                                    },
+                                    {
+                                        'name':'shopby 신청 상세'
+                                    },
+                                    {
+                                        'name':'관리자 팝업 관리'
+                                    },
+                                    {
+                                        'name':'정식도메인 신청 관리'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                ja: {
+                    message: {
+                        menus: [
+                            {
+                                'name':'アカウント管理',
+                                'child': [
+                                    {
+                                        'name':'従業員のアカウントの管理'
+                                    },
+                                    {
+                                        'name':'メニュー別の権限の設定'
+                                    },
+                                    {
+                                        'name':'個人管理（ユーザー情報の管理 -  My Menu）'
+                                    }
+                                ]
+                            },
+                            {
+                                'name':'Platform管理',
+                                'child': [
+                                    {
+                                        'name':'基本商品管理 -  Platform管理'
+                                    },
+                                    {
+                                        'name':'販売商品管理 -  Platformプロモーション'
+                                    },
+                                    {
+                                        'name':'セッティングサーバーの管理'
+                                    }
+                                ]
+                            },
+                            {
+                                'name':'Platformアプリケーションの管理',
+                                'child': [
+                                    {
+                                        'name':'shopby 신청 List'
+                                    },
+                                    {
+                                        'name':'shopby申し込みList'
+                                    },
+                                    {
+                                        'name':'マネージャのポップアップ管理'
+                                    },
+                                    {
+                                        'name':'完全修飾ドメインの申請を管理'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
         };
     },
     methods: {
@@ -116,6 +220,14 @@ export default {
                 this.pathname = window.location.pathname;
             }
         }
+    },
+    created: function() {
+        const i18n = new VueI18n({
+            locale: 'ja', // set locale
+            messages, // set locale messages
+        });
+
+        new Vue({ i18n }).$mount('#menuGnb');
     },
     mounted: function() {
         this.setData();

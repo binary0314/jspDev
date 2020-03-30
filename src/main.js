@@ -2,6 +2,7 @@
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
 
 import DefaultLayout from "~/layouts/Default.vue";
+import VueI18n from "vue-i18n";
 import jquery from "jquery";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -26,5 +27,6 @@ export default async function(Vue, { router, head, isClient }) {
 
     // Set default layout as a global component
     Vue.component("Layout", DefaultLayout);
+    Vue.use(VueI18n);
     // Vue.use(Bootstrap)
 }
