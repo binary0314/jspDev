@@ -7,7 +7,7 @@
         <div class="row no-gutters">
             <div class="col-md-12">
                 <div class="wrapper d-flex align-items-stretch">
-                    <nav id="sidebar">
+                    <nav id="sidebar" v-if="pathname != '/'">
                         <div class="custom-menu">
                             <button type="button" id="sidebarCollapse" class="btn btn-primary">
                                 <i class="fa fa-bars"></i>
@@ -53,14 +53,30 @@ export default {
         Gnb,
         Lnb
     },
-    mounted:function() {
-       $('.js-fullheight').css('height', $(window).height());
-        $(window).resize(function(){
-            $('.js-fullheight').css('height', $(window).height());
-        });
-        $('#sidebarCollapse').on('click', function () {
-            $('#sidebar').toggleClass('active');
-        });
+    data: function() {
+        return {
+            pathname: null
+        };
+    },
+    methods: {
+        setData: function() {
+            if (typeof window !== "undefined") {
+                this.pathname = window.location.pathname;
+            }
+        },
+        pageInit: function() {
+            $(".js-fullheight").css("height", $(window).height());
+            $(window).resize(function() {
+                $(".js-fullheight").css("height", $(window).height());
+            });
+            $("#sidebarCollapse").on("click", function() {
+                $("#sidebar").toggleClass("active");
+            });
+        }
+    },
+    mounted: function() {
+        this.pageInit();
+        this.setData();
     }
 };
 </script>
