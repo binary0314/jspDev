@@ -7,7 +7,13 @@
             <g-link to="/account/menu-auth">메뉴별 권한설정</g-link>
         </li>
         <li :class="{active: pathname == '/account/info'}">
-            <g-link to="/account/info">개인별 관리<br>(사용자 정보관리 - My Menu)</g-link>
+            <a class="dropdown-toggle" href="#accountinfo" role="button" data-toggle="collapse">개인별 관리<br>(사용자 정보관리 - My Menu)</a>
+            <ul id="accountinfo" class="collapse list-unstyled">
+                <li>
+                    <g-link to="/account/info">내정보 수정</g-link>
+                    <g-link to="/account/link">비밀번호 변경</g-link>
+                </li>
+            </ul>
         </li>
     </ul>
 </template>
