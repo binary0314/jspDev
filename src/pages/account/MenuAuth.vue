@@ -92,7 +92,7 @@
             <div class="card-body">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>컬럼1</th>
                             <th>컬럼2</th>
                             <th>컬럼3</th>
@@ -102,17 +102,6 @@
                             <th>명령</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>컬럼1</th>
-                            <th>컬럼2</th>
-                            <th>컬럼3</th>
-                            <th>컬럼4</th>
-                            <th>날짜</th>
-                            <th>금액</th>
-                            <th>명령</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         <!--tr> 리스트 결과가 없을 시 출력합니다.
                             <td colspan="7" class="text-center"><h5><em>리스트 결과가 없습니다.</em></h5></td>

@@ -1,0 +1,51 @@
+{
+    "menus": [
+        {
+            "name":"계정관리",
+            "child": [
+                {
+                    "name":"임직원 계정관리"
+                },
+                {
+                    "name":"메뉴별 권한설정"
+                },
+                {
+                    "name":"개인별 관리 (사용자 정보관리 - My Menu)"
+                }
+            ]
+        },
+        {
+            "name":"Platform 관리",
+            "child": [
+                {
+                    "name":"기본상품관리 - Platform 관리"
+                },
+                {
+                    "name":"판매상품관리 - Platform 프로모션"
+                },
+                {
+                    "name":"세팅서버 관리"
+                }
+            ]
+        },
+        {
+            "name":"Platform 신청 관리",
+            "child": [
+                {
+                    "name":"shopby 신청 List"
+                },
+                {
+                    "name":"shopby 신청 상세"
+                },
+                {
+                    "name":"관리자 팝업 관리"
+                },
+                {
+                    "name":"정식도메인 신청 관리"
+                }
+            ]
+        }
+    ],
+    "btn-save": "저장",
+    "btn-del": "삭제"
+}

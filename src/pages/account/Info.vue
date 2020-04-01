@@ -92,7 +92,7 @@
             <div class="card-body">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>컬럼1</th>
                             <th>컬럼2</th>
                             <th>컬럼3</th>

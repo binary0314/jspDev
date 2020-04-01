@@ -2,9 +2,11 @@
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
 
 import DefaultLayout from "~/layouts/Default.vue";
-import VueI18n from "vue-i18n";
 import jquery from "jquery";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+import VueI18n from 'vue-i18n';
+import messages from '@/lang/ko.json';
 
 export default async function(Vue, { router, head, isClient }) {
 
@@ -29,4 +31,36 @@ export default async function(Vue, { router, head, isClient }) {
     Vue.component("Layout", DefaultLayout);
     Vue.use(VueI18n);
     // Vue.use(Bootstrap)
+
+    
+    const i18n = new VueI18n({
+        locale: 'ko', // set locale
+        fallbackLocale: 'ko',
+        messages // set locale messages
+    })
+
+    /*
+    let browser_language;
+
+    if (isClient) {
+        browser_language = window.navigator.language.split('-')[0]
+        console.log(browser_language)
+    }
+    const languages = ["ko", "ja"];
+    let selected_language = languages.includes(browser_language) ? browser_language : 'ko';
+
+    return import(`@/lang/${selected_language}.json`).then(
+        messages => {
+            return (selected_language)
+        }
+    )
+    */
 }
+
+/*
+Vue.use(VueI18n);
+export const i18n = new VueI18n({
+    locale: 'ko', // set locale
+    fallbackLocale: 'ko',
+    messages // set locale messages
+})*/
