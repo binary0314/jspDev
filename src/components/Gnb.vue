@@ -11,7 +11,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3 active" href="#" role="button" data-toggle="dropdown">
-                                계정관리
+                                {{ $t('menus[0].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/account/staff">임직원 계정관리</g-link>
@@ -21,7 +21,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3" href="#" role="button" data-toggle="dropdown">
-                                Platform 관리
+                                {{ $t('menus[1].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/link">기본상품관리 - Platform 관리</g-link>
@@ -31,7 +31,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3" href="#" role="button" data-toggle="dropdown">
-                                Platform 신청 관리
+                                {{ $t('menus[2].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/link">shopby 신청 List</g-link>
