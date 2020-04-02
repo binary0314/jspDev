@@ -14,9 +14,9 @@
                                 {{ $t('menus[0].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <g-link class="dropdown-item" to="/account/staff">임직원 계정관리</g-link>
-                                <g-link class="dropdown-item" to="/account/menu-auth">메뉴별 권한설정</g-link>
-                                <g-link class="dropdown-item" to="/account/info">개인별 관리 (사용자 정보관리 - My Menu)</g-link>
+                                <g-link class="dropdown-item" :to="$t('menus[0].child[0].link')">{{ $t('menus[0].child[0].name') }}</g-link>
+                                <g-link class="dropdown-item" :to="$t('menus[0].child[1].link')">{{ $t('menus[0].child[1].name') }}</g-link>
+                                <g-link class="dropdown-item" :to="$t('menus[0].child[2].link')">{{ $t('menus[0].child[2].name') }}</g-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -24,9 +24,9 @@
                                 {{ $t('menus[1].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <g-link class="dropdown-item" to="/link">기본상품관리 - Platform 관리</g-link>
-                                <g-link class="dropdown-item" to="/link">판매상품관리 - Platform 프로모션</g-link>
-                                <g-link class="dropdown-item" to="/link">세팅서버 관리</g-link>
+                                <g-link class="dropdown-item" to="/link">{{ $t('menus[1].child[0].name') }}</g-link>
+                                <g-link class="dropdown-item" to="/link">{{ $t('menus[1].child[1].name') }}</g-link>
+                                <g-link class="dropdown-item" to="/link">{{ $t('menus[1].child[2].name') }}</g-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -34,26 +34,25 @@
                                 {{ $t('menus[2].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <g-link class="dropdown-item" to="/link">shopby 신청 List</g-link>
-                                <g-link class="dropdown-item" to="/link">shopby 신청 상세</g-link>
-                                <g-link class="dropdown-item" to="/link">관리자 팝업 관리</g-link>
-                                <g-link class="dropdown-item" to="/link">정식도메인 신청 관리</g-link>
+                                <g-link class="dropdown-item" to="/link">{{ $t('menus[2].child[0].name') }}</g-link>
+                                <g-link class="dropdown-item" to="/link">{{ $t('menus[2].child[1].name') }}</g-link>
+                                <g-link class="dropdown-item" to="/link">{{ $t('menus[2].child[2].name') }}</g-link>
+                                <g-link class="dropdown-item" to="/link">{{ $t('menus[2].child[3].name') }}</g-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3" href="#" role="button" data-toggle="dropdown">
-                                부가서비스
+                                {{ $t('menus[3].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/link">PG 신청 중앙화 관리</g-link>
-                                <g-link class="dropdown-item" to="/link">shopby 신청 상세</g-link>
                                 <g-link class="dropdown-item" to="/link">전자세금계산서 서비스</g-link>
                                 <g-link class="dropdown-item" to="/link">보안서버 신청 관리</g-link>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3" href="#" role="button" data-toggle="dropdown">
-                                재무회계
+                                {{ $t('menus[4].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/link">서비스 해지 관리</g-link>
@@ -64,7 +63,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3" href="#" role="button" data-toggle="dropdown">
-                                게시판 관리
+                                {{ $t('menus[5].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/link">1:1문의</g-link>
@@ -73,7 +72,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3" href="#" role="button" data-toggle="dropdown">
-                                통계
+                                {{ $t('menus[6].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/link">솔루션 신청</g-link>
@@ -81,7 +80,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle mr-sm-3" href="#" role="button" data-toggle="dropdown">
-                                로그관리
+                                {{ $t('menus[7].name') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <g-link class="dropdown-item" to="/link">System Mail 발송 로그</g-link>
