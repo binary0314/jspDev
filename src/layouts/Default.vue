@@ -43,6 +43,9 @@ import $ from 'jquery';
 import '~/assets/normalize.css';
 import '~/assets/layout.css';
 
+// load json
+import menus from '~/assets/menu.json';
+
 // load components
 import Gnb from '../components/Gnb';
 import Lnb from '../components/Lnb';

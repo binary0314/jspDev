@@ -1,118 +1,55 @@
 {
-    "menus": [
-        {
-            "name":"アカウント管理",
-            "child": [
-                {
-                    "name":"従業員のアカウントの管理",
-                    "link":"/account/staff"
-                },
-                {
-                    "name":"メニュー別の権限の設定",
-                    "link":"/account/menu-auth"
-                },
-                {
-                    "name":"個人管理（ユーザー情報の管理 -  My Menu）",
-                    "link":"/account/info"
-                }
-            ]
+    "menus": {
+        "account":{
+            "title":"アカウント管理",
+            "staff":"従業員のアカウントの管理",
+            "menu_auth":"メニュー別の権限の設定",
+            "info":"個人管理（ユーザー情報の管理 -  My Menu）"
         },
-        {
-            "name":"Platform管理",
-            "child": [
-                {
-                    "name":"基本商品管理 -  Platform管理"
-                },
-                {
-                    "name":"販売商品管理 -  Platformプロモーション"
-                },
-                {
-                    "name":"セッティングサーバーの管理"
-                }
-            ]
+        "platform_goods":{
+            "title":"Platform管理",
+            "basic":"基本商品管理 -  Platform管理",
+            "promotion":"販売商品管理 -  Platformプロモーション",
+            "server":"セッティングサーバーの管理"
         },
-        {
-            "name":"Platformアプリケーションの管理",
-            "child": [
-                {
-                    "name":"shopby申し込みList"
-                },
-                {
-                    "name":"shopby申し込み詳細"
-                },
-                {
-                    "name":"マネージャのポップアップ管理"
-                },
-                {
-                    "name":"完全修飾ドメインの申請を管理"
-                }
-            ]
+        "platform_regist":{
+            "title":"Platformアプリケーションの管理",
+            "shopby_regist":"shopby申し込みList",
+            "shopby_regist_detail":"shopby申し込み詳細",
+            "popup":"マネージャのポップアップ管理",
+            "domain":"完全修飾ドメインの申請を管理"
         },
-        {
-            "name":"付加サービス",
-            "child": [
-                {
-                    "name":"PGの申請集中管理"
-                },
-                {
-                    "name":"電子税金計算書サービス"
-                },
-                {
-                    "name":"セキュリティサーバアプリケーションの管理"
-                }
-            ]
+        "addservice":{
+            "title":"付加サービス",
+            "pg":"PGの申請集中管理",
+            "taxbill":"電子税金計算書サービス",
+            "secure_server":"セキュリティサーバアプリケーションの管理"
         },
-        {
-            "name":"財務会計",
-            "child": [
-                {
-                    "name":"サービス解約の管理"
-                },
-                {
-                    "name":"現金領収書の管理"
-                },
-                {
-                    "name":"ネオン管理"
-                },
-                {
-                    "name":"税金計算書の管理"
-                }
-            ]
+        "finance":{
+            "title":"財務会計",
+            "termination":"サービス解約の管理",
+            "receipts":"現金領収書の管理",
+            "neon":"ネオン管理",
+            "taxbill":"税金計算書の管理"
         },
-        {
-            "name":"掲示板の管理",
-            "child": [
-                {
-                    "name":"1：1お問い合わせ"
-                },
-                {
-                    "name":"お知らせの管理"
-                }
-            ]
+        "board":{
+            "title":"掲示板の管理",
+            "inquiry":"1：1お問い合わせ",
+            "notice":"お知らせの管理"
         },
-        {
-            "name":"統計",
-            "child": [
-                {
-                    "name":"ソリューションの適用"
-                }
-            ]
+        "statistics":{
+            "title":"統計",
+            "shop_regist":"ソリューションの適用"
         },
-        {
-            "name":"ログ管理",
-            "child": [
-                {
-                    "name":"System Mail発送ログ"
-                },
-                {
-                    "name":"gomsログイン"
-                },
-                {
-                    "name":"権限の設定、ログ"
-                }
-            ]
+        "log":{
+            "title":"ログ管理",
+            "mail":"System Mail発送ログ",
+            "login":"gomsログイン",
+            "auth":"権限の設定、ログ"
         }
-    ],
-    "btn-save": "保存",
-    "btn-del": "削除"
+    },
+    "lang":"日本",
+    "btnSave":"保存",
+    "btnDel":"削除",
+    "btnSearch":"検索"
 }

@@ -1,118 +1,55 @@
 {
-    "menus": [
-        {
-            "name":"계정관리",
-            "child": [
-                {
-                    "name":"임직원 계정관리",
-                    "link":"/account/staff"
-                },
-                {
-                    "name":"메뉴별 권한설정",
-                    "link":"/account/menu-auth"
-                },
-                {
-                    "name":"개인별 관리 (사용자 정보관리 - My Menu)",
-                    "link":"/account/info"
-                }
-            ]
+    "menus": {
+        "account":{
+            "title":"계정관리",
+            "staff":"임직원 계정관리",
+            "menu_auth":"메뉴별 권한설정",
+            "info":"개인별 관리 (사용자 정보관리 - My Menu)"
         },
-        {
-            "name":"Platform 관리",
-            "child": [
-                {
-                    "name":"기본상품관리 - Platform 관리"
-                },
-                {
-                    "name":"판매상품관리 - Platform 프로모션"
-                },
-                {
-                    "name":"세팅서버 관리"
-                }
-            ]
+        "platform_goods":{
+            "title":"Platform 관리",
+            "basic":"기본상품관리 - Platform 관리",
+            "promotion":"판매상품관리 - Platform 프로모션",
+            "server":"세팅서버 관리"
         },
-        {
-            "name":"Platform 신청 관리",
-            "child": [
-                {
-                    "name":"shopby 신청 List"
-                },
-                {
-                    "name":"shopby 신청 상세"
-                },
-                {
-                    "name":"관리자 팝업 관리"
-                },
-                {
-                    "name":"정식도메인 신청 관리"
-                }
-            ]
+        "platform_regist":{
+            "title":"Platform 신청 관리",
+            "shopby_regist":"shopby 신청 List",
+            "shopby_regist_detail":"shopby 신청 상세",
+            "popup":"관리자 팝업 관리",
+            "domain":"정식도메인 신청 관리"
         },
-        {
-            "name":"부가서비스",
-            "child": [
-                {
-                    "name":"PG 신청 중앙화 관리"
-                },
-                {
-                    "name":"전자세금계산서 서비스"
-                },
-                {
-                    "name":"보안서버 신청 관리"
-                }
-            ]
+        "addservice":{
+            "title":"부가서비스",
+            "pg":"PG 신청 중앙화 관리",
+            "taxbill":"전자세금계산서 서비스",
+            "secure_server":"보안서버 신청 관리"
         },
-        {
-            "name":"재무회계",
-            "child": [
-                {
-                    "name":"서비스 해지 관리"
-                },
-                {
-                    "name":"현금영수증관리"
-                },
-                {
-                    "name":"네온 관리"
-                },
-                {
-                    "name":"세금계산서 관리"
-                }
-            ]
+        "finance":{
+            "title":"재무회계",
+            "termination":"서비스 해지 관리",
+            "receipts":"현금영수증관리",
+            "neon":"네온 관리",
+            "taxbill":"세금계산서 관리"
         },
-        {
-            "name":"게시판 관리",
-            "child": [
-                {
-                    "name":"1:1문의"
-                },
-                {
-                    "name":"공지사항 관리"
-                }
-            ]
+        "board":{
+            "title":"게시판 관리",
+            "inquiry":"1:1문의",
+            "notice":"공지사항 관리"
         },
-        {
-            "name":"통계",
-            "child": [
-                {
-                    "name":"솔루션 신청"
-                }
-            ]
+        "statistics":{
+            "title":"통계",
+            "shop_regist":"솔루션 신청"
         },
-        {
-            "name":"로그관리",
-            "child": [
-                {
-                    "name":"System Mail 발송 로그"
-                },
-                {
-                    "name":"goms 로그인 로그"
-                },
-                {
-                    "name":"권한설정 로그"
-                }
-            ]
+        "log":{
+            "title":"로그관리",
+            "mail":"System Mail 발송 로그",
+            "login":"goms 로그인 로그",
+            "auth":"권한설정 로그"
         }
-    ],
-    "btn-save": "저장",
-    "btn-del": "삭제"
+    },
+    "lang":"한국어",
+    "btnSave":"저장",
+    "btnDel":"삭제",
+    "btnSearch":"검색"
 }

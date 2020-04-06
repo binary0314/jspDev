@@ -25,9 +25,9 @@ export default async function(Vue, { router, head, appOptions, isClient }) {
     Vue.component("Layout", DefaultLayout);
     Vue.use(VueI18n);
 
-    Object.defineProperty(Vue.prototype, "$", {
-        value: jquery
-    });
+    if (isClient) {
+        window.$ = jquery;
+    }
 
     let lang;
     if (isClient) {

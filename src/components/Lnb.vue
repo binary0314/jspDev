@@ -1,28 +1,28 @@
 <template>
-    <ul class="list-unstyled components mb-5">
-        <li :class="{active: pathname == '/account/staff'}">
-            <g-link to="/account/staff">임직원 계정관리</g-link>
-        </li>
-        <li :class="{active: pathname == '/account/menu-auth'}">
-            <g-link to="/account/menu-auth">메뉴별 권한설정</g-link>
-        </li>
-        <li :class="{active: pathname == '/account/info'}">
-            <a class="dropdown-toggle" href="#accountinfo" role="button" data-toggle="collapse">개인별 관리<br>(사용자 정보관리 - My Menu)</a>
-            <ul id="accountinfo" class="collapse list-unstyled">
-                <li>
-                    <g-link to="/account/info">내정보 수정</g-link>
-                    <g-link to="/account/link">비밀번호 변경</g-link>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <div>
+        <ul v-for="lnb in menus" :key="lnb.lang" v-show="lnb.links.includes(pathname)" class="list-unstyled components mb-5">
+            <li v-for="lnbSub in lnb.pages" :key="lnbSub.lang" :class="{active: pathname == lnbSub.link}">
+                <g-link v-if="lnbSub.sub.length <= 0" :to="lnbSub.link">{{ $t(lnbSub.lang) }}</g-link>
+                <a  v-else class="dropdown-toggle" :href="'#'+lnbSub.subId" role="button" data-toggle="collapse">{{ $t(lnbSub.lang) }}</a>
+                <ul :id="lnbSub.subId" class="collapse list-unstyled">
+                    <li>
+                        <g-link v-for="lnbSubChild in lnbSub.sub" :key="lnbSubChild.lang" :to="lnbSubChild.link">{{ $t(lnbSubChild.lang) }}</g-link>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
+// load json
+import menus from '~/assets/menu.json';
+
 export default {
     data: function() {
         return {
-            pathname: null
+            pathname: null,
+            menus: menus
         };
     },
     methods: {

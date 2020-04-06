@@ -1,0 +1,210 @@
+[
+    {
+        "lang":"menus.account.title",
+        "path":"account",
+        "links":[
+            "/account/staff",
+            "/account/menu-auth",
+            "/account/info"
+        ],
+        "pages": [
+            {
+                "lang":"menus.account.staff",
+                "link":"/account/staff",
+                "sub": []
+            },
+            {
+                "lang":"menus.account.menu_auth",
+                "link":"/account/menu-auth",
+                "sub": []
+            },
+            {
+                "lang":"menus.account.info",
+                "link":"/account/info",
+                "sub": []
+            }
+        ]
+    },
+    {
+        "lang":"menus.platform_goods.title",
+        "path":"platform-goods",
+        "links":[
+            "/platform-goods/basic",
+            "/platform-goods/promotion",
+            "/platform-goods/server"
+        ],
+        "pages": [
+            {
+                "lang":"menus.platform_goods.basic",
+                "link":"/platform-goods/basic",
+                "sub": []
+            },
+            {
+                "lang":"menus.platform_goods.promotion",
+                "link":"/platform-goods/promotion",
+                "sub": []
+            },
+            {
+                "lang":"menus.platform_goods.server",
+                "link":"/platform-goods/server",
+                "sub": []
+            }
+        ]
+    },
+    {
+        "lang":"menus.platform_regist.title",
+        "path":"platform-regist",
+        "links":[
+            "/platform-goods/basic",
+            "/platform-goods/promotion",
+            "/platform-goods/server"
+        ],
+        "pages": [
+            {
+                "lang":"menus.platform_regist.shopby_regist",
+                "link":"/platform-regist/shopby-regist",
+                "subId":"menuBtnShopbyRegist",
+                "sub": [
+                    {
+                        "lang":"menus.platform_regist.shopby_regist",
+                        "link":"/platform-regist/shopby-regist"
+                    },
+                    {
+                        "lang":"menus.platform_regist.shopby_regist_detail",
+                        "link":"/platform-regist/shopby-regist-detail"
+                    }
+                ]
+            },
+            {
+                "lang":"menus.platform_regist.popup",
+                "link":"/platform-regist/popup",
+                "sub": []
+            },
+            {
+                "lang":"menus.platform_regist.domain",
+                "link":"/platform-regist/domain",
+                "sub": []
+            }
+        ]
+    },
+    {
+        "lang":"menus.addservice.title",
+        "path":"addservice",
+        "links":[
+            "/platform-goods/basic",
+            "/platform-goods/promotion",
+            "/platform-goods/server"
+        ],
+        "pages": [
+            {
+                "lang":"menus.addservice.pg",
+                "link":"/addservice/pg",
+                "sub": []
+            },
+            {
+                "lang":"menus.addservice.taxbill",
+                "link":"/addservice/taxbill",
+                "sub": []
+            },
+            {
+                "lang":"menus.addservice.secure_server",
+                "link":"/addservice/secure-server",
+                "sub": []
+            }
+        ]
+    },
+    {
+        "lang":"menus.finance.title",
+        "path":"finance",
+        "links":[
+            "/platform-goods/basic",
+            "/platform-goods/promotion",
+            "/platform-goods/server"
+        ],
+        "pages": [
+            {
+                "lang":"menus.finance.termination",
+                "link":"/finance/termination",
+                "sub": []
+            },
+            {
+                "lang":"menus.finance.receipts",
+                "link":"/finance/receipts",
+                "sub": []
+            },
+            {
+                "lang":"menus.finance.neon",
+                "link":"/finance/neon",
+                "sub": []
+            },
+            {
+                "lang":"menus.finance.taxbill",
+                "link":"/finance/taxbill",
+                "sub": []
+            }
+        ]
+    },
+    {
+        "lang":"menus.board.title",
+        "path":"board",
+        "links":[
+            "/platform-goods/basic",
+            "/platform-goods/promotion",
+            "/platform-goods/server"
+        ],
+        "pages": [
+            {
+                "lang":"menus.board.inquiry",
+                "link":"/board/inquiry",
+                "sub": []
+            },
+            {
+                "lang":"menus.board.notice",
+                "link":"/board/notice",
+                "sub": []
+            }
+        ]
+    },
+    {
+        "lang":"menus.statistics.title",
+        "path":"statistics",
+        "links":[
+            "/platform-goods/basic",
+            "/platform-goods/promotion",
+            "/platform-goods/server"
+        ],
+        "pages": [
+            {
+                "lang":"menus.statistics.shop_regist",
+                "link":"/statistics/shop-regist",
+                "sub": []
+            }
+        ]
+    },
+    {
+        "lang":"menus.log.title",
+        "path":"log",
+        "links":[
+            "/platform-goods/basic",
+            "/platform-goods/promotion",
+            "/platform-goods/server"
+        ],
+        "pages": [
+            {
+                "lang":"menus.log.mail",
+                "link":"/log/mail",
+                "sub": []
+            },
+            {
+                "lang":"menus.log.login",
+                "link":"/log/login",
+                "sub": []
+            },
+            {
+                "lang":"menus.log.auth",
+                "link":"/log/auth",
+                "sub": []
+            }
+        ]
+    }
+]
