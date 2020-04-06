@@ -8,8 +8,6 @@
 </template>
 
 <script>
-// load js
-
 export default {
     data() {
         return {

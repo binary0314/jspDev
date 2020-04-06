@@ -36,9 +36,6 @@ query {
 }
 </static-query>
 <script>
-// load js
-import $ from 'jquery';
-
 // load css
 import '~/assets/normalize.css';
 import '~/assets/layout.css';
