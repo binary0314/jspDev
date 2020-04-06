@@ -5,9 +5,8 @@
 import DefaultLayout from "~/layouts/Default.vue";
 
 // load js
-import jquery from "jquery";
 import VueI18n from "vue-i18n";
-import "bootstrap";
+// import "bootstrap";
 
 // Load json
 import korean from "~/lang/ko.json";
@@ -26,7 +25,8 @@ export default async function(Vue, { router, head, appOptions, isClient }) {
     Vue.use(VueI18n);
 
     if (isClient) {
-        window.$ = jquery;
+        window.$ = require('jquery');
+        require("bootstrap");
     }
 
     let lang;

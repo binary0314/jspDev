@@ -9,7 +9,6 @@
 
 <script>
 // load js
-import $ from "jquery";
 
 export default {
     data() {
