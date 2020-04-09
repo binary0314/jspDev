@@ -97,7 +97,7 @@ const App = {
     
      data: function() {
         return {
-            groups: [{"groupCode":"management_personnel","groupName":"???"},{"groupCode":"hosting","groupName":"??????????"},{"groupCode":"management","groupName":"???"},{"groupCode":"bizplan","groupName":"EC???"},{"groupCode":"development","groupName":"???"},{"groupCode":"edu_design","groupName":"EC???"},{"groupCode":"upthatme","groupName":"????"}],
+            groups: [{"groupCode":"management_personnel","groupName":"재무 경영실"},{"groupCode":"hosting","groupName":"호스팅 사업실"},{"groupCode":"management","groupName":"???"},{"groupCode":"bizplan","groupName":"EC 사업실"},{"groupCode":"development","groupName":"개발실"},{"groupCode":"edu_design","groupName":"EC 디자인실"}],
             teams: {},
             admins: {}
         };
@@ -137,7 +137,7 @@ const App = {
         this.init();
     },
     mounted: function() {
-       console.log(App.data.groups);
+       console.log(App.groups);
        //console.log(this.$root.$i18n);
     }
 }
