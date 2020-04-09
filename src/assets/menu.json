@@ -5,22 +5,28 @@
         "links":[
             "/account/staff",
             "/account/menu-auth",
-            "/account/info"
+            "/account/info",
+            "/account/staff-regist"
         ],
         "pages": [
             {
                 "lang":"menus.account.staff",
                 "link":"/account/staff",
+                "form":[
+                    "/account/staff-regist"
+                ],
                 "sub": []
             },
             {
                 "lang":"menus.account.menu_auth",
                 "link":"/account/menu-auth",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.account.info",
                 "link":"/account/info",
+                "form": [],
                 "sub": []
             }
         ]
@@ -37,16 +43,19 @@
             {
                 "lang":"menus.platform_goods.basic",
                 "link":"/platform-goods/basic",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.platform_goods.promotion",
                 "link":"/platform-goods/promotion",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.platform_goods.server",
                 "link":"/platform-goods/server",
+                "form": [],
                 "sub": []
             }
         ]
@@ -63,6 +72,7 @@
             {
                 "lang":"menus.platform_regist.shopby_regist",
                 "link":"/platform-regist/shopby-regist",
+                "form": [],
                 "subId":"menuBtnShopbyRegist",
                 "sub": [
                     {
@@ -78,11 +88,13 @@
             {
                 "lang":"menus.platform_regist.popup",
                 "link":"/platform-regist/popup",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.platform_regist.domain",
                 "link":"/platform-regist/domain",
+                "form": [],
                 "sub": []
             }
         ]
@@ -99,16 +111,19 @@
             {
                 "lang":"menus.addservice.pg",
                 "link":"/addservice/pg",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.addservice.taxbill",
                 "link":"/addservice/taxbill",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.addservice.secure_server",
                 "link":"/addservice/secure-server",
+                "form": [],
                 "sub": []
             }
         ]
@@ -125,21 +140,25 @@
             {
                 "lang":"menus.finance.termination",
                 "link":"/finance/termination",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.finance.receipts",
                 "link":"/finance/receipts",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.finance.neon",
                 "link":"/finance/neon",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.finance.taxbill",
                 "link":"/finance/taxbill",
+                "form": [],
                 "sub": []
             }
         ]
@@ -156,11 +175,13 @@
             {
                 "lang":"menus.board.inquiry",
                 "link":"/board/inquiry",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.board.notice",
                 "link":"/board/notice",
+                "form": [],
                 "sub": []
             }
         ]
@@ -177,6 +198,7 @@
             {
                 "lang":"menus.statistics.shop_regist",
                 "link":"/statistics/shop-regist",
+                "form": [],
                 "sub": []
             }
         ]
@@ -193,16 +215,19 @@
             {
                 "lang":"menus.log.mail",
                 "link":"/log/mail",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.log.login",
                 "link":"/log/login",
+                "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.log.auth",
                 "link":"/log/auth",
+                "form": [],
                 "sub": []
             }
         ]

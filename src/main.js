@@ -6,7 +6,6 @@ import DefaultLayout from "~/layouts/Default.vue";
 
 // load js
 import VueI18n from "vue-i18n";
-// import "bootstrap";
 
 // Load json
 import korean from "~/lang/ko.json";
@@ -25,6 +24,7 @@ export default async function(Vue, { router, head, appOptions, isClient }) {
     Vue.use(VueI18n);
 
     if (isClient) {
+        window.axios = require('axios');
         window.$ = require('jquery');
         require("bootstrap");
     }
@@ -36,7 +36,6 @@ export default async function(Vue, { router, head, appOptions, isClient }) {
     }
     const supportedLanguages = ["ko", "ja"];
     lang = supportedLanguages.includes(lang) ? lang : "ko";
-    console.log("message", messages, lang);
     appOptions.i18n = new VueI18n({
         locale: lang, // set locale
         // fallbackLocale: "ko",

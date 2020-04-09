@@ -17,8 +17,7 @@
                         <div class="form-group col-md-4">
                             <select id="inputSelect" class="form-control">
                                 <option value="" selected>선택하세요</option>
-                                <option value="">조건1</option>
-                                <option value="">조건2</option>
+                                <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode">{{ group.groupName }}</option>
                             </select>
                         </div>
                     </div>
@@ -94,8 +93,55 @@
 </template>
 
 <script>
-export default {
+const App = {
+    
+     data: function() {
+        return {
+            groups: [{"groupCode":"management_personnel","groupName":"???"},{"groupCode":"hosting","groupName":"??????????"},{"groupCode":"management","groupName":"???"},{"groupCode":"bizplan","groupName":"EC???"},{"groupCode":"development","groupName":"???"},{"groupCode":"edu_design","groupName":"EC???"},{"groupCode":"upthatme","groupName":"????"}],
+            teams: {},
+            admins: {}
+        };
+    },
+    methods: {
+        init: function() {
+            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
+                params: {
+                    searchType: 'group',
+                    groupCode: 'all'
+                }
+            }).then(function(response) {
+                if (response.data.resultCode == 0) {
+                    //App.groups = JSON.parse(response.data.data);
+                }
+            }).catch(function (error) {
+                if (error.response) {
+                    // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+                    // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+                    // Node.js의 http.ClientRequest 인스턴스입니다.
+                    console.log(error.request);
+                } else {
+                    // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+                    console.log('Error', error.message);
+                }
+                // alert(this.$root.$i18n.messages.ko.errMsg.http_fail);
+                
+            });
+        }
+    },
+    created: function() {
+        this.init();
+    },
+    mounted: function() {
+       console.log(App.data.groups);
+       //console.log(this.$root.$i18n);
+    }
 }
+export default App
 </script>
 
 <style>

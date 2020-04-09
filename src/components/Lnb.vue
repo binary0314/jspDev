@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul v-for="lnb in menus" :key="lnb.lang" v-show="lnb.links.includes(pathname)" class="list-unstyled components mb-5">
-            <li v-for="lnbSub in lnb.pages" :key="lnbSub.lang" :class="{active: pathname == lnbSub.link}">
+            <li v-for="lnbSub in lnb.pages" :key="lnbSub.lang" :class="{active: pathname == lnbSub.link || lnbSub.form.includes(pathname)}">
                 <g-link v-if="lnbSub.sub.length <= 0" :to="lnbSub.link">{{ $t(lnbSub.lang) }}</g-link>
                 <a  v-else class="dropdown-toggle" :href="'#'+lnbSub.subId" role="button" data-toggle="collapse">{{ $t(lnbSub.lang) }}</a>
                 <ul :id="lnbSub.subId" class="collapse list-unstyled">
