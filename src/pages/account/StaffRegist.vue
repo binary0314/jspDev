@@ -77,7 +77,7 @@
                             <div class="form-row">
                                 <div class="col-sm-12 text-center">
                                     <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-check"></i> 저장하기</button>&nbsp;
-                                    <a href="staff" role="button" class="btn btn-outline-secondary btn-lg"><i class="fa fa-list"></i> 목록</a>
+                                    <g-link to="/account/staff" role="button" class="btn btn-outline-secondary btn-lg"><i class="fa fa-list"></i> 목록</g-link>
                                 </div>
                             </div>
                         </li>

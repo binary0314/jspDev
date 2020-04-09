@@ -4,7 +4,7 @@
             <div class="card-header">
                 계정관리 > 임직원 계정관리
                 <div class="pull-right">
-                    <a href="staff-regist" role="button" class="btn btn-sm btn-primary">등록하기</a>
+                    <g-link to="/account/staff-regist" role="button" class="btn btn-sm btn-primary">등록하기</g-link>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -15,8 +15,8 @@
                     <div class="form-row">
                         <label for="inputSelect" class="col-sm-1 col-form-label">조직 검색</label>
                         <div class="form-group col-md-4">
-                            <select id="inputSelect" class="form-control">
-                                <option value="" selected>선택하세요</option>
+                            <select id="inputSelect" class="form-control" v-model="groupSelected" @change="teamSearch">
+                                <option value="">선택하세요</option>
                                 <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode">{{ group.groupName }}</option>
                             </select>
                         </div>
@@ -24,8 +24,9 @@
                     <div class="form-row">
                         <label for="inputSelect" class="col-sm-1 col-form-label">팀 검색</label>
                         <div class="form-group col-md-4">
-                            <select id="inputSelect" class="form-control">
-                                <option value="" selected>선택하세요</option>
+                            <select id="inputSelect" class="form-control" v-model="teamSelected" @change="adminSearch">
+                                <option value="">선택하세요</option>
+                                <option v-for="team in teams" :key="team.groupCode" :value="team.groupCode">{{ team.groupName }}</option>
                             </select>
                         </div>
                     </div>
@@ -67,53 +68,56 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="10" class="text-center"><h5><em>리스트 결과가 없습니다.</em></h5></td>
+                        <tr v-if="this.totalCount <= 0" class="text-center">
+                            <td colspan="10"><h5><em>리스트 결과가 없습니다.</em></h5></td>
                         </tr>
-                        <!--tr>
-                            <td>Tiger Nixon </td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td class="text-center">61</td>
-                            <td class="text-center">2011/04/25</td>
-                            <td class="text-right">$320,800</td>
-                            <td class="text-center">
-                                <button class="btn btn-default btn-data-layer">레이어</button>
-                                <a href="#" role="button" class="btn btn-default"><i class="fa fa-search-plus"></i>상세</a>
-                                <button class="btn btn-danger btn-data-delete" data-num="<?php echo $data['list primary key'];?>"><i class="fa fa-trash"></i>삭제</button>
+                        <tr v-else v-for="(admin, index) in admins" :key="admin.adminId" class="text-center">
+                            <td>{{ totalCount - index }}</td>
+                            <td>{{ admin.mid }}</td>
+                            <td>{{ admin.name }}</td>
+                            <td>{{ admin.position }}</td>
+                            <td>{{ admin.gname }}</td>
+                            <td>{{ admin.inphone }}</td>
+                            <td>{{ admin.phone }}</td>
+                            <td>{{ admin.mail }}</td>
+                            <td>{{ admin.sdate }}</td>
+                            <td>
+                                <g-link :to="'/account/staff-regist?idx='+admin.mno" role="button" class="btn btn-outline-secondary"><i class="fa fa-search-plus"></i>상세</g-link>
                             </td>
-                        </tr-->
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <!-- List End -->
-            
         </div>
     </Layout>
 </template>
 
 <script>
-const App = {
+let App = {
     
      data: function() {
         return {
-            groups: [{"groupCode":"management_personnel","groupName":"재무 경영실"},{"groupCode":"hosting","groupName":"호스팅 사업실"},{"groupCode":"management","groupName":"???"},{"groupCode":"bizplan","groupName":"EC 사업실"},{"groupCode":"development","groupName":"개발실"},{"groupCode":"edu_design","groupName":"EC 디자인실"}],
+            groups: {},
             teams: {},
-            admins: {}
+            admins: {},
+            totalCount: 0,
+            groupSelected: '',
+            teamSelected: ''
         };
     },
     methods: {
         init: function() {
             axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
                 params: {
-                    searchType: 'group',
-                    groupCode: 'all'
+                    searchTarget: 'group',
+                    searchValue: 'all'
                 }
-            }).then(function(response) {
+            }).then(response => {
                 if (response.data.resultCode == 0) {
-                    //App.groups = JSON.parse(response.data.data);
+                    this.groups = response.data.data;
                 }
-            }).catch(function (error) {
+            }).catch(error => {
                 if (error.response) {
                     // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
                     console.log(error.response.data);
@@ -128,17 +132,93 @@ const App = {
                     // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
                     console.log('Error', error.message);
                 }
-                // alert(this.$root.$i18n.messages.ko.errMsg.http_fail);
-                
+                alert(this.$i18n.t('errMsg.http_fail'));
             });
+        },
+        teamSearch: function() {
+            if (this.groupSelected == '') {
+                this.teams = {};
+            } else {
+                axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
+                    params: {
+                        searchTarget: 'team',
+                        searchType: 'group',
+                        searchValue: this.groupSelected
+                    }
+                }).then(response => {
+                    if (response.data.resultCode == 0) {
+                        if (response.data.data.length <= 0) {
+                            for(let index in this.groups) {
+                                if (this.groups[index].groupCode == this.groupSelected) {
+                                    this.teams = [{
+                                        groupCode: this.groups[index].groupCode,
+                                        groupName: this.groups[index].groupName
+                                    }];
+                                    break;
+                                }
+                            }
+                        } else {
+                            this.teams = response.data.data;
+                        }
+                    }
+                }).catch(error => {
+                    if (error.response) {
+                        // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+                        // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+                        // Node.js의 http.ClientRequest 인스턴스입니다.
+                        console.log(error.request);
+                    } else {
+                        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+                        console.log('Error', error.message);
+                    }
+                    alert(this.$i18n.t('errMsg.http_fail'));
+                    
+                });
+            } 
+        },
+        adminSearch: function() {
+            if (this.teamSelected == '') {
+                this.admins = {};
+            } else {
+                axios.get('http://local-nhngodo.co.jp:8080/godoService/member/admin', {
+                    params: {
+                        secureYn: 'Y',
+                        searchType: 'gcode',
+                        searchValue: this.teamSelected
+                    }
+                }).then(response => {
+                    if (response.data.resultCode == 0) {
+                        this.admins = response.data.data;
+                        this.totalCount = Object.keys(this.admins).length;
+                    }
+                }).catch(error => {
+                    if (error.response) {
+                        // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        // 요청이 이루어 졌으나 응답을 받지 못했습니다.
+                        // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
+                        // Node.js의 http.ClientRequest 인스턴스입니다.
+                        console.log(error.request);
+                    } else {
+                        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
+                        console.log('Error', error.message);
+                    }
+                    alert(this.$i18n.t('errMsg.http_fail'));
+                    
+                });
+            } 
         }
     },
     created: function() {
         this.init();
-    },
-    mounted: function() {
-       console.log(App.groups);
-       //console.log(this.$root.$i18n);
     }
 }
 export default App
