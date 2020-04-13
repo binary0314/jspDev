@@ -48,8 +48,16 @@
             "auth":"権限の設定、ログ"
         }
     },
+    "sucMsg": {
+        "regist_suc":"登録された。",
+        "update_suc":"修正された。",
+        "delete_suc":"削除された。"
+    },
     "errMsg": {
-        "http_fail":"データをロードに失敗しました。"
+        "http_err":"データをロードに失敗しました。",
+        "regist_err":"データを保存するのに失敗しました。",
+        "update_err":"データを変更するのに失敗しました。",
+        "delete_err":"データを削除するのに失敗しました。"
     },
     "lang":"日本",
     "btnSave":"保存",

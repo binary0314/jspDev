@@ -6,14 +6,16 @@
             "/account/staff",
             "/account/menu-auth",
             "/account/info",
-            "/account/staff-regist"
+            "/account/staff-regist",
+            "/account/staff-detail"
         ],
         "pages": [
             {
                 "lang":"menus.account.staff",
                 "link":"/account/staff",
                 "form":[
-                    "/account/staff-regist"
+                    "/account/staff-regist",
+                    "/account/staff-detail"
                 ],
                 "sub": []
             },

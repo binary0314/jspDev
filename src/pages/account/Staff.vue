@@ -2,7 +2,7 @@
     <Layout>
         <div class="card">
             <div class="card-header">
-                계정관리 > 임직원 계정관리
+                {{ $t('menus.account.title') }} > {{ $t('menus.account.staff') }}
                 <div class="pull-right">
                     <g-link to="/account/staff-regist" role="button" class="btn btn-sm btn-primary">등록하기</g-link>
                 </div>
@@ -11,7 +11,7 @@
             
             <!-- Search Start -->
             <div class="card-body">
-                <form class="" role="form" action="">
+                <form name="staffListFm" class="form-horizontal" role="form" @submit.prevent="onSearch">
                     <div class="form-row">
                         <label for="inputSelect" class="col-sm-1 col-form-label">조직 검색</label>
                         <div class="form-group col-md-4">
@@ -33,13 +33,12 @@
                     <div class="form-row">
                         <label for="keyword" class="col-sm-1 col-form-label">상세 조건</label>
                         <div class="form-group col-sm-1">
-                            <select class="form-control" name="">
-                                <option value="">이름</option>
-                                <option value="">연락처</option>
+                            <select class="form-control" name="searchType">
+                                <option value="name">이름</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-4">
-                            <input type="text" class="form-control" id="keyword" name="" value="" placeholder="검색명">
+                            <input type="text" class="form-control" id="keyword" name="keyword" value="" placeholder="검색명">
                         </div>
                         <div class="form-group col-sm-3">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 검색</button>&nbsp;
@@ -75,14 +74,21 @@
                             <td>{{ totalCount - index }}</td>
                             <td>{{ admin.mid }}</td>
                             <td>{{ admin.name }}</td>
-                            <td>{{ admin.position }}</td>
+                            <td>
+                                <template v-if="admin.position == 'leader'">
+                                    팀장
+                                </template>
+                                <template v-else>
+                                    팀원
+                                </template>
+                            </td>
                             <td>{{ admin.gname }}</td>
                             <td>{{ admin.inphone }}</td>
                             <td>{{ admin.phone }}</td>
                             <td>{{ admin.mail }}</td>
                             <td>{{ admin.sdate }}</td>
                             <td>
-                                <g-link :to="'/account/staff-regist?idx='+admin.mno" role="button" class="btn btn-outline-secondary"><i class="fa fa-search-plus"></i>상세</g-link>
+                                <g-link :to="'/account/staff-detail?idx='+admin.mno" role="button" class="btn btn-outline-secondary"><i class="fa fa-search-plus"></i>상세</g-link>
                             </td>
                         </tr>
                     </tbody>
@@ -114,25 +120,18 @@ let App = {
                     searchValue: 'all'
                 }
             }).then(response => {
-                if (response.data.resultCode == 0) {
-                    this.groups = response.data.data;
+                if (response.data.msg.resultCode == 0) {
+                    this.groups = response.data.msg.data;
                 }
             }).catch(error => {
                 if (error.response) {
-                    // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
+                    console.log(error.response);
                 } else if (error.request) {
-                    // 요청이 이루어 졌으나 응답을 받지 못했습니다.
-                    // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
-                    // Node.js의 http.ClientRequest 인스턴스입니다.
                     console.log(error.request);
                 } else {
-                    // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
                     console.log('Error', error.message);
                 }
-                alert(this.$i18n.t('errMsg.http_fail'));
+                alert(this.$i18n.t('errMsg.http_err'));
             });
         },
         teamSearch: function() {
@@ -146,8 +145,8 @@ let App = {
                         searchValue: this.groupSelected
                     }
                 }).then(response => {
-                    if (response.data.resultCode == 0) {
-                        if (response.data.data.length <= 0) {
+                    if (response.data.msg.resultCode == 0) {
+                        if (response.data.msg.data.length <= 0) {
                             for(let index in this.groups) {
                                 if (this.groups[index].groupCode == this.groupSelected) {
                                     this.teams = [{
@@ -158,25 +157,18 @@ let App = {
                                 }
                             }
                         } else {
-                            this.teams = response.data.data;
+                            this.teams = response.data.msg.data;
                         }
                     }
                 }).catch(error => {
                     if (error.response) {
-                        // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
+                        console.log(error.response);
                     } else if (error.request) {
-                        // 요청이 이루어 졌으나 응답을 받지 못했습니다.
-                        // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
-                        // Node.js의 http.ClientRequest 인스턴스입니다.
                         console.log(error.request);
                     } else {
-                        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
                         console.log('Error', error.message);
                     }
-                    alert(this.$i18n.t('errMsg.http_fail'));
+                    alert(this.$i18n.t('errMsg.http_err'));
                     
                 });
             } 
@@ -192,29 +184,50 @@ let App = {
                         searchValue: this.teamSelected
                     }
                 }).then(response => {
-                    if (response.data.resultCode == 0) {
-                        this.admins = response.data.data;
+                    if (response.data.msg.resultCode == 0) {
+                        this.admins = response.data.msg.data;
                         this.totalCount = Object.keys(this.admins).length;
                     }
                 }).catch(error => {
                     if (error.response) {
-                        // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
+                        console.log(error.response);
                     } else if (error.request) {
-                        // 요청이 이루어 졌으나 응답을 받지 못했습니다.
-                        // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
-                        // Node.js의 http.ClientRequest 인스턴스입니다.
                         console.log(error.request);
                     } else {
-                        // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
                         console.log('Error', error.message);
                     }
-                    alert(this.$i18n.t('errMsg.http_fail'));
-                    
+                    alert(this.$i18n.t('errMsg.http_err'));
                 });
-            } 
+            }
+        },
+        onSearch: function() {
+            let searchType = $('select[name=searchType]').val();
+            let searchValue = $('input[name=keyword]').val();
+            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/admin', {
+                params: {
+                    secureYn: 'Y',
+                    searchType: searchType,
+                    searchValue: searchValue
+                }
+            }).then(response => {
+                if (response.data.msg.resultCode == 0) {
+                    // 기존 어드민 객체에서 일치하는 정보가 있는지 확인
+                    /*
+                    this.admins = response.data.msg.data;
+                    this.totalCount = Object.keys(this.admins).length;
+                    */
+                }
+            }).catch(error => {
+                if (error.response) {
+                    console.log(error.response);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                alert(this.$i18n.t('errMsg.http_err'));
+                
+            });
         }
     },
     created: function() {
