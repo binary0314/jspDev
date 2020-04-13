@@ -197,7 +197,7 @@ let App = {
             });
         }
     },
-    created: function() {
+    mounted: function() {
         this.init();
     }
 }

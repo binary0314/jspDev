@@ -239,7 +239,7 @@ let App = {
             $('input[name=keyword]').val('');
         }
     },
-    created: function() {
+    mounted: function() {
         this.init();
     }
 }
