@@ -5,6 +5,8 @@
 import DefaultLayout from "~/layouts/Default.vue";
 
 // load js
+import Axios from "axios";
+import jquery from "jquery";
 import VueI18n from "vue-i18n";
 
 // Load json
@@ -19,18 +21,16 @@ const messages = {
     ja: japanese
 };
 
-export default async function(Vue, { router, head, appOptions, isClient }) {
-    Vue.component("Layout", DefaultLayout);
+export default async function(Vue, { appOptions, isClient }) {
+
     Vue.use(VueI18n);
-
-    if (isClient) {
-        window.axios = require('axios');
-        window.$ = require('jquery');
-        require("bootstrap");
-    }
-
+    
     let lang;
     if (isClient) {
+        window.axios = Axios;
+        window.$ = jquery;
+        require("bootstrap");
+
         lang = window.navigator.language.split("-")[0];
         console.log(lang);
     }
@@ -41,4 +41,7 @@ export default async function(Vue, { router, head, appOptions, isClient }) {
         // fallbackLocale: "ko",
         messages // set locale messages
     });
+    
+    Vue.component("Layout", DefaultLayout);
+    
 }

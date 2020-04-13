@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 검색</button>&nbsp;
-                            <button type="button" class="btn btn-outline-secondary" onClick="location.href='';"><i class="fa fa-refresh"></i> 초기화</button>
+                            <button type="button" class="btn btn-outline-secondary" @click="reset"><i class="fa fa-refresh"></i> 초기화</button>
                         </div>
                     </div>
                 </form>
@@ -185,6 +185,7 @@ let App = {
                     }
                 }).then(response => {
                     if (response.data.msg.resultCode == 0) {
+                        $('input[name=keyword]').val('');
                         this.admins = response.data.msg.data;
                         this.totalCount = Object.keys(this.admins).length;
                     }
@@ -211,11 +212,11 @@ let App = {
                 }
             }).then(response => {
                 if (response.data.msg.resultCode == 0) {
-                    // 기존 어드민 객체에서 일치하는 정보가 있는지 확인
-                    /*
+                    this.groupSelected = '';
+                    this.teamSelected = '';
+                    this.teams = {};
                     this.admins = response.data.msg.data;
                     this.totalCount = Object.keys(this.admins).length;
-                    */
                 }
             }).catch(error => {
                 if (error.response) {
@@ -228,6 +229,14 @@ let App = {
                 alert(this.$i18n.t('errMsg.http_err'));
                 
             });
+        },
+        reset: function() {
+            this.groupSelected = '';
+            this.teamSelected = '';
+            this.teams = {};
+            this.admins = {};
+            this.totalCount = 0;
+            $('input[name=keyword]').val('');
         }
     },
     created: function() {
