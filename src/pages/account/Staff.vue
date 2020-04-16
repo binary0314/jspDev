@@ -100,7 +100,7 @@
 </template>
 
 <script>
-let App = {
+export default {
     
      data: function() {
         return {
@@ -204,6 +204,9 @@ let App = {
         onSearch: function() {
             let searchType = $('select[name=searchType]').val();
             let searchValue = $('input[name=keyword]').val();
+            if (searchType == '' || searchValue == '') {
+                return false;
+            }
             axios.get('http://local-nhngodo.co.jp:8080/godoService/member/admin', {
                 params: {
                     secureYn: 'Y',
@@ -243,7 +246,6 @@ let App = {
         this.init();
     }
 }
-export default App
 </script>
 
 <style>

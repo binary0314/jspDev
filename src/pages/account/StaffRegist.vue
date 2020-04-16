@@ -90,7 +90,7 @@
 </template>
 
 <script>
-let App = {
+export default {
     
      data: function() {
         return {
@@ -175,7 +175,7 @@ let App = {
                 url: 'http://local-nhngodo.co.jp:8080/godoService/member/admin',
                 data: $('form[name=staffRegistFm]').serialize()
             }).then(response => {
-                if (response.status === 204) {
+                if (response.status === 201) {
                     alert(this.$i18n.t('sucMsg.regist_suc'));
                     this.$router.push('/account/staff');
                 }
@@ -201,7 +201,6 @@ let App = {
         this.init();
     }
 }
-export default App
 </script>
 
 <style>

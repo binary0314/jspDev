@@ -59,8 +59,28 @@
         "update_err":"データを変更するのに失敗しました。",
         "delete_err":"データを削除するのに失敗しました。"
     },
+    "conMsg": {
+        "regist_con":"登録しますか？",
+        "update_con":"修正しますか？",
+        "delete_con":"削除しますか？"
+    },
+    "pageMsg": {
+        "staff": {
+
+        },
+        "menu_auth": {
+            "title1":"メニュー選択",
+            "title2":"選択されたメニュー",
+            "title3":"権限リスト",
+            "title4":"管理者の選択",
+            "pathSelect_err":"メニューを選択してください。",
+            "adminSelect_err":"管理者を選択してください。",
+            "adminCheck_err":"すでに権限の設定がされています。"
+        }
+    },
     "lang":"日本",
     "btnSave":"保存",
     "btnDel":"削除",
-    "btnSearch":"検索"
+    "btnSearch":"検索",
+    "detaultSelect":"選択してください"
 }

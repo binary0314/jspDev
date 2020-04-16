@@ -81,7 +81,7 @@
 </template>
 
 <script>
-let App = {
+export default {
     
      data: function() {
         return {
@@ -165,7 +165,6 @@ let App = {
             }).then(response => {
                 if (response.status === 204) {
                     alert(this.$i18n.t('sucMsg.update_suc'));
-                    this.$router.push('/account/staff');
                 }
             }).catch(error => {
                 if (error.response) {
@@ -189,7 +188,6 @@ let App = {
         this.init();
     }
 }
-export default App
 </script>
 
 <style>

@@ -6,7 +6,7 @@ import DefaultLayout from "~/layouts/Default.vue";
 
 // load js
 import Axios from "axios";
-import jquery from "jquery";
+import JQuery from "jquery";
 import VueI18n from "vue-i18n";
 
 // Load json
@@ -28,7 +28,7 @@ export default async function(Vue, { appOptions, isClient }) {
     let lang;
     if (isClient) {
         window.axios = Axios;
-        window.$ = jquery;
+        window.$ = JQuery;
         require("bootstrap");
 
         lang = window.navigator.language.split("-")[0];

@@ -59,8 +59,28 @@
         "update_err":"데이터를 수정하는데 실패하였습니다.",
         "delete_err":"데이터를 삭제하는데 실패하였습니다."
     },
+    "conMsg": {
+        "regist_con":"등록 하시겠습니까?",
+        "update_con":"수정 하시겠습니까?",
+        "delete_con":"삭제 하시겠습니까?"
+    },
+    "pageMsg": {
+        "staff": {
+
+        },
+        "menu_auth": {
+            "title1":"메뉴선택",
+            "title2":"선택된 메뉴",
+            "title3":"권한 리스트",
+            "title4":"관리자 선택",
+            "pathSelect_err":"메뉴를 선택해주세요.",
+            "adminSelect_err":"관리자를 선택해주세요.",
+            "adminCheck_err":"이미 권한설정이 되어있습니다."
+        }
+    },
     "lang":"한국어",
     "btnSave":"저장",
     "btnDel":"삭제",
-    "btnSearch":"검색"
+    "btnSearch":"검색",
+    "detaultSelect":"선택하세요"
 }
