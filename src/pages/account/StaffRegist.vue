@@ -94,21 +94,41 @@ export default {
     
      data: function() {
         return {
+            sendStatus: false,
+            sendInstance: false,
             groups: {}
         };
     },
     methods: {
-        init: function() {
-            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
-                params: {
-                    searchTarget: 'team',
-                    searchValue: 'all'
-                }
-            }).then(response => {
+        async init() {
+            this.sendInstance = axios.create({
+                baseURL: process.env.GRIDSOME_CORE_API_URL,
+                proxyHeaders: false,
+                credentials: false,
+                timeout: 2000
+            });
+            await this.groupSearch();
+        },
+        async groupSearch() {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'get',
+                    url: '/godoService/member/group',
+                    params: {
+                        searchTarget: 'team',
+                        searchValue: 'all'
+                    }
+                });
+                this.sendStatus = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -117,9 +137,9 @@ export default {
                     console.log('Error', error.message);
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
-            });
+            }
         },
-        onSave: function() {
+        async onSave() {
             if ($('input[name=name]').val().length <= 0) {
                 alert('다음 항목을 입력하세요 : 이름');
                 $('input[name=name]').focus();
@@ -170,16 +190,23 @@ export default {
                 $('input[name=phone]').focus();
                 return false;
             }
-            axios({
-                method: 'post',
-                url: 'http://local-nhngodo.co.jp:8080/godoService/member/admin',
-                data: $('form[name=staffRegistFm]').serialize()
-            }).then(response => {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'post',
+                    url: '/godoService/member/admin',
+                    data: $('form[name=staffRegistFm]').serialize()
+                });
+                this.sendStatus = false;
                 if (response.status === 201) {
                     alert(this.$i18n.t('sucMsg.regist_suc'));
                     this.$router.push('/account/staff');
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                     if (error.response.status == 400) {
@@ -189,12 +216,11 @@ export default {
                     }
                 } else if (error.request) {
                     console.log(error.request);
-                    alert(this.$i18n.t('errMsg.regist_err'));
                 } else {
                     console.log('Error', error.message);
-                    alert(this.$i18n.t('errMsg.regist_err'));
                 }
-            });
+                alert(this.$i18n.t('errMsg.http_err'));
+            }
         }
     },
     mounted: function() {

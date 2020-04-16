@@ -13,6 +13,9 @@ import VueI18n from "vue-i18n";
 import korean from "~/lang/ko.json";
 import japanese from "~/lang/ja.json";
 
+// load vuex store
+import Store from "~/store/store";
+
 // load css
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -32,7 +35,12 @@ export default async function(Vue, { appOptions, isClient }) {
         require("bootstrap");
 
         lang = window.navigator.language.split("-")[0];
-        console.log(lang);
+
+        // HTTP프로토콜 HTTPS로 변경 ( build시 아래 주석 해제 필요. )
+        if (window.location.protocol == "http:") {
+            // window.location.href = window.location.href.replace("http:", "https:");
+        }
+  
     }
     const supportedLanguages = ["ko", "ja"];
     lang = supportedLanguages.includes(lang) ? lang : "ko";
@@ -42,6 +50,7 @@ export default async function(Vue, { appOptions, isClient }) {
         messages // set locale messages
     });
     
+    appOptions.store = Store;
     Vue.component("Layout", DefaultLayout);
     
 }

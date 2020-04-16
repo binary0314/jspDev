@@ -74,6 +74,8 @@ export default {
     
      data: function() {
         return {
+            sendStatus: false,
+            sendInstance: false,
             menus: menus,
             menuAuth: {},
             groups: {},
@@ -85,17 +87,35 @@ export default {
         };
     },
     methods: {
-        init: function() {
-            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
-                params: {
-                    searchTarget: 'team',
-                    searchValue: 'all'
-                }
-            }).then(response => {
+        async init() {
+            this.sendInstance = axios.create({
+                baseURL: process.env.GRIDSOME_CORE_API_URL,
+                proxyHeaders: false,
+                credentials: false,
+                timeout: 2000
+            });
+            await this.menuSearch();
+        },
+        async menuSearch() {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'get',
+                    url: '/godoService/member/group',
+                    params: {
+                        searchTarget: 'team',
+                        searchValue: 'all'
+                    }
+                });
+                this.sendStatus = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -104,21 +124,30 @@ export default {
                     console.log('Error', error.message);
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
-            });
+            }
         },
-        menuSelected: function(path, lang) {
+        async menuSelected(path, lang) {
             this.pathSelected = path;
             this.langSelected = lang;
-            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/menu-auth', {
-                params: {
-                    searchType: 'path',
-                    searchValue: path
-                }
-            }).then(response => {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'get',
+                    url: '/godoService/member/menu-auth',
+                    params: {
+                        searchType: 'path',
+                        searchValue: path
+                    }
+                });
+                this.sendStatus = false;
                 if (response.data.msg.resultCode == 0) {
                     this.menuAuth = response.data.msg.data;
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -127,24 +156,32 @@ export default {
                     console.log('Error', error.message);
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
-                
-            });
+            }
         },
-        adminSearch: function() {
+        async adminSearch() {
             if (this.teamSelected == '') {
                 this.adminSearch = {};
             } else {
-                axios.get('http://local-nhngodo.co.jp:8080/godoService/member/admin', {
-                    params: {
-                        secureYn: 'Y',
-                        searchType: 'gcode',
-                        searchValue: this.teamSelected
-                    }
-                }).then(response => {
+                if (this.sendStatus === true) {
+                    return false;
+                }
+                this.sendStatus = true;
+                try {
+                    let response = await this.sendInstance({
+                        method: 'get',
+                        url: '/godoService/member/admin',
+                        params: {
+                            secureYn: 'Y',
+                            searchType: 'gcode',
+                            searchValue: this.teamSelected
+                        }
+                    });
+                    this.sendStatus = false;
                     if (response.data.msg.resultCode == 0) {
                         this.admins = response.data.msg.data;
                     }
-                }).catch(error => {
+                } catch (error) {
+                    this.sendStatus = false;
                     if (error.response) {
                         console.log(error.response);
                     } else if (error.request) {
@@ -152,11 +189,12 @@ export default {
                     } else {
                         console.log('Error', error.message);
                     }
+                    console.log(error);
                     alert(this.$i18n.t('errMsg.http_err'));
-                });
+                }
             }
         },
-        addManager: function() {
+        async addManager() {
             if (this.pathSelected == '') {
                 alert(this.$i18n.t('pageMsg.menu_auth.pathSelect_err'));
                 return false;
@@ -178,16 +216,23 @@ export default {
                 return false;
             }
 
-            axios({
-                method: 'post',
-                url: 'http://local-nhngodo.co.jp:8080/godoService/member/menu-auth',
-                data: {mno: this.adminSelected, path: this.pathSelected}
-            }).then(response => {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'post',
+                    url: '/godoService/member/menu-auth',
+                    data: {mno: this.adminSelected, path: this.pathSelected}
+                });
+                this.sendStatus = false;
                 if (response.status === 201) {
                     alert(this.$i18n.t('sucMsg.regist_suc'));
-                    this.menuSelected(this.pathSelected, this.langSelected);
+                    await this.menuSelected(this.pathSelected, this.langSelected);
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                     if (error.response.status == 400) {
@@ -202,21 +247,24 @@ export default {
                     console.log('Error', error.message);
                     alert(this.$i18n.t('errMsg.regist_err'));
                 }
-            });
+            }
         },
-        removeManager: function(mno) {
+        async removeManager(mno) {
             let message = this.$i18n.t('conMsg.delete_con');
             if (confirm(message)) {
-                axios({
-                    method: 'delete',
-                    url: 'http://local-nhngodo.co.jp:8080/godoService/member/menu-auth/'+mno,
-                    data: {path: this.pathSelected}
-                }).then(response => {
+                try {
+                    let response = await this.sendInstance({
+                        method: 'delete',
+                        url: '/godoService/member/menu-auth/'+mno,
+                        data: {path: this.pathSelected}
+                    });
+                    this.sendStatus = false;
                     if (response.status === 204) {
                         alert(this.$i18n.t('sucMsg.delete_suc'));
-                        this.menuSelected(this.pathSelected, this.langSelected);
+                        await this.menuSelected(this.pathSelected, this.langSelected);
                     }
-                }).catch(error => {
+                } catch (error) {
+                    this.sendStatus = false;
                     if (error.response) {
                         console.log(error.response);
                         if (error.response.status == 400) {
@@ -231,7 +279,7 @@ export default {
                         console.log('Error', error.message);
                         alert(this.$i18n.t('errMsg.delete_err'));
                     }
-                });
+                }
             }
         }
     },

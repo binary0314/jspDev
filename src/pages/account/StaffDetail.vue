@@ -86,27 +86,51 @@ export default {
      data: function() {
         return {
             idx: this.$route.query.idx,
+            sendStatus: false,
+            sendInstance: false,
             adminInfo: {},
             groups: {}
         };
     },
     methods: {
-        init: function() {
+        async init() {
             if (this.idx <= 0) {
                 alert(this.$i18n.t('errMsg.http_err'));
                 history.back();
             }
-            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/admin', {
-                params: {
-                    secureYn: 'N',
-                    searchType: 'mno',
-                    searchValue: this.idx
-                }
-            }).then(response => {
+            this.sendInstance = axios.create({
+                baseURL: process.env.GRIDSOME_CORE_API_URL,
+                proxyHeaders: false,
+                credentials: false,
+                timeout: 2000
+            });
+            await this.getAdminInfo();
+            await this.groupSearch();
+        },
+        async getAdminInfo() {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'get',
+                    url: '/godoService/member/admin',
+                    params: {
+                        secureYn: 'N',
+                        searchType: 'mno',
+                        searchValue: this.idx
+                    }
+                });
+                this.sendStatus = false;
                 if (response.data.msg.resultCode == 0) {
                     this.adminInfo = response.data.msg.data[0];
+                } else {
+                    alert(this.$i18n.t('errMsg.http_err'));
+                    history.back();
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -116,17 +140,28 @@ export default {
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
                 history.back();
-            });
-            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
-                params: {
-                    searchTarget: 'team',
-                    searchValue: 'all'
-                }
-            }).then(response => {
+            }
+        },
+        async groupSearch() {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'get',
+                    url: '/godoService/member/group',
+                    params: {
+                        searchTarget: 'team',
+                        searchValue: 'all'
+                    }
+                });
+                this.sendStatus = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -135,9 +170,9 @@ export default {
                     console.log('Error', error.message);
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
-            });
+            }
         },
-        onSave: function() {
+        async onSave() {
             if ($('input[name=sdate]').val().length <= 0) {
                 alert('다음 항목을 입력하세요 : 입사일');
                 $('input[name=sdate]').focus();
@@ -158,15 +193,22 @@ export default {
                 $('input[name=phone]').focus();
                 return false;
             }
-            axios({
-                method: 'put',
-                url: 'http://local-nhngodo.co.jp:8080/godoService/member/admin/'+this.idx,
-                data: $('form[name=staffDetailFm]').serialize()
-            }).then(response => {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'put',
+                    url: '/godoService/member/admin/'+this.idx,
+                    data: $('form[name=staffDetailFm]').serialize()
+                });
+                this.sendStatus = false;
                 if (response.status === 204) {
                     alert(this.$i18n.t('sucMsg.update_suc'));
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                     if (error.response.status == 400) {
@@ -181,7 +223,7 @@ export default {
                     console.log('Error', error.message);
                     alert(this.$i18n.t('errMsg.update_err'));
                 }
-            });
+            }
         }
     },
     mounted: function() {

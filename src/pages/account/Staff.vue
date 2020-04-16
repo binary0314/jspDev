@@ -1,6 +1,7 @@
 <template>
     <Layout>
         <div class="card">
+            {{ doneTodosCount }}
             <div class="card-header">
                 {{ $t('menus.account.title') }} > {{ $t('menus.account.staff') }}
                 <div class="pull-right">
@@ -100,10 +101,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
     
      data: function() {
         return {
+            sendStatus: false,
+            sendInstance: false,
             groups: {},
             teams: {},
             admins: {},
@@ -113,17 +118,35 @@ export default {
         };
     },
     methods: {
-        init: function() {
-            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
-                params: {
-                    searchTarget: 'group',
-                    searchValue: 'all'
-                }
-            }).then(response => {
+        async init() {
+            this.sendInstance = axios.create({
+                baseURL: process.env.GRIDSOME_CORE_API_URL,
+                proxyHeaders: false,
+                credentials: false,
+                timeout: 2000
+            });
+            await this.groupSearch();
+        },
+        async groupSearch() {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'get',
+                    url: '/godoService/member/group',
+                    params: {
+                        searchTarget: 'group',
+                        searchValue: 'all'
+                    }
+                });
+                this.sendStatus = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -132,19 +155,28 @@ export default {
                     console.log('Error', error.message);
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
-            });
+            }
         },
-        teamSearch: function() {
+        async teamSearch() {
+            this.$store.dispatch('increment')
             if (this.groupSelected == '') {
                 this.teams = {};
             } else {
-                axios.get('http://local-nhngodo.co.jp:8080/godoService/member/group', {
-                    params: {
-                        searchTarget: 'team',
-                        searchType: 'group',
-                        searchValue: this.groupSelected
-                    }
-                }).then(response => {
+                if (this.sendStatus === true) {
+                    return false;
+                }
+                this.sendStatus = true;
+                try {
+                    let response = await this.sendInstance({
+                        method: 'get',
+                        url: '/godoService/member/group',
+                        params: {
+                            searchTarget: 'team',
+                            searchType: 'group',
+                            searchValue: this.groupSelected
+                        }
+                    });
+                    this.sendStatus = false;
                     if (response.data.msg.resultCode == 0) {
                         if (response.data.msg.data.length <= 0) {
                             for(let index in this.groups) {
@@ -160,7 +192,8 @@ export default {
                             this.teams = response.data.msg.data;
                         }
                     }
-                }).catch(error => {
+                } catch (error) {
+                    this.sendStatus = false;
                     if (error.response) {
                         console.log(error.response);
                     } else if (error.request) {
@@ -169,27 +202,38 @@ export default {
                         console.log('Error', error.message);
                     }
                     alert(this.$i18n.t('errMsg.http_err'));
-                    
-                });
-            } 
+                }
+            }
         },
-        adminSearch: function() {
+        async adminSearch() {
             if (this.teamSelected == '') {
                 this.admins = {};
             } else {
-                axios.get('http://local-nhngodo.co.jp:8080/godoService/member/admin', {
-                    params: {
-                        secureYn: 'Y',
-                        searchType: 'gcode',
-                        searchValue: this.teamSelected
-                    }
-                }).then(response => {
-                    if (response.data.msg.resultCode == 0) {
+                if (this.sendStatus === true) {
+                    return false;
+                }
+                this.sendStatus = true;
+                try {
+                    let response = await this.sendInstance({
+                        method: 'get',
+                        url: '/godoService/member/admin',
+                        params: {
+                            secureYn: 'Y',
+                            searchType: 'gcode',
+                            searchValue: this.teamSelected
+                        }
+                    });
+                    this.sendStatus = false;
+                    if (response.data.code == 200) {
                         $('input[name=keyword]').val('');
                         this.admins = response.data.msg.data;
                         this.totalCount = Object.keys(this.admins).length;
+                    } else {
+                        console.log(response);
+                        alert(this.$i18n.t('errMsg.http_err'));
                     }
-                }).catch(error => {
+                } catch (error) {
+                    this.sendStatus = false;
                     if (error.response) {
                         console.log(error.response);
                     } else if (error.request) {
@@ -198,22 +242,30 @@ export default {
                         console.log('Error', error.message);
                     }
                     alert(this.$i18n.t('errMsg.http_err'));
-                });
+                }
             }
         },
-        onSearch: function() {
+        async onSearch() {
             let searchType = $('select[name=searchType]').val();
             let searchValue = $('input[name=keyword]').val();
             if (searchType == '' || searchValue == '') {
                 return false;
             }
-            axios.get('http://local-nhngodo.co.jp:8080/godoService/member/admin', {
-                params: {
-                    secureYn: 'Y',
-                    searchType: searchType,
-                    searchValue: searchValue
-                }
-            }).then(response => {
+            if (this.sendStatus === true) {
+                return false;
+            }
+            this.sendStatus = true;
+            try {
+                let response = await this.sendInstance({
+                    method: 'get',
+                    url: '/godoService/member/admin',
+                    params: {
+                        secureYn: 'Y',
+                        searchType: searchType,
+                        searchValue: searchValue
+                    }
+                });
+                this.sendStatus = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groupSelected = '';
                     this.teamSelected = '';
@@ -221,7 +273,8 @@ export default {
                     this.admins = response.data.msg.data;
                     this.totalCount = Object.keys(this.admins).length;
                 }
-            }).catch(error => {
+            } catch (error) {
+                this.sendStatus = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -230,16 +283,21 @@ export default {
                     console.log('Error', error.message);
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
-                
-            });
+            }
         },
-        reset: function() {
+        reset() {
             this.groupSelected = '';
             this.teamSelected = '';
             this.teams = {};
             this.admins = {};
             this.totalCount = 0;
             $('input[name=keyword]').val('');
+        }
+    },
+    // computed: mapState(['count']),
+    computed: {
+        doneTodosCount () {
+            return this.$store.getters.doneTodosCount
         }
     },
     mounted: function() {

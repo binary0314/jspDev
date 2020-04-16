@@ -74,9 +74,22 @@ export default {
             });
         }
     },
+    computed: function() {
+
+    },
     mounted: function() {
         this.pageInit();
         this.setData();
+        // 권한체크
+
+        // 로그인 시간 체크
+        if (localStorage.getItem("_t") <= (new Date().getTime() + 1000)) {
+            // 기존 데이터 삭제 후 로그인 페이지로 보내기
+        }
+        
+        
+        // 로그인 시간 자동 저장
+        // localStorage.setItem("_t", new Date().getTime());
     }
 };
 </script>
