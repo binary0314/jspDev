@@ -117,7 +117,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'get',
-                    url: '/godoService/member/group',
+                    url: '/memberService/member/group',
                     params: {
                         searchTarget: 'team',
                         searchValue: 'all'
@@ -197,7 +197,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'post',
-                    url: '/godoService/member/admin',
+                    url: '/memberService/member/admin',
                     data: $('form[name=staffRegistFm]').serialize()
                 });
                 this.sendStatus = false;

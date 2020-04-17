@@ -1,7 +1,6 @@
 <template>
     <Layout>
         <div class="card">
-            {{ doneTodosCount }}
             <div class="card-header">
                 {{ $t('menus.account.title') }} > {{ $t('menus.account.staff') }}
                 <div class="pull-right">
@@ -101,8 +100,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
     
      data: function() {
@@ -135,7 +132,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'get',
-                    url: '/godoService/member/group',
+                    url: '/memberService/member/group',
                     params: {
                         searchTarget: 'group',
                         searchValue: 'all'
@@ -158,7 +155,6 @@ export default {
             }
         },
         async teamSearch() {
-            this.$store.dispatch('increment')
             if (this.groupSelected == '') {
                 this.teams = {};
             } else {
@@ -169,7 +165,7 @@ export default {
                 try {
                     let response = await this.sendInstance({
                         method: 'get',
-                        url: '/godoService/member/group',
+                        url: '/memberService/member/group',
                         params: {
                             searchTarget: 'team',
                             searchType: 'group',
@@ -216,7 +212,7 @@ export default {
                 try {
                     let response = await this.sendInstance({
                         method: 'get',
-                        url: '/godoService/member/admin',
+                        url: '/memberService/member/admin',
                         params: {
                             secureYn: 'Y',
                             searchType: 'gcode',
@@ -258,7 +254,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'get',
-                    url: '/godoService/member/admin',
+                    url: '/memberService/member/admin',
                     params: {
                         secureYn: 'Y',
                         searchType: searchType,
@@ -292,12 +288,6 @@ export default {
             this.admins = {};
             this.totalCount = 0;
             $('input[name=keyword]').val('');
-        }
-    },
-    // computed: mapState(['count']),
-    computed: {
-        doneTodosCount () {
-            return this.$store.getters.doneTodosCount
         }
     },
     mounted: function() {

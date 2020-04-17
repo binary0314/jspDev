@@ -1,15 +1,21 @@
 // Global Store mutations
 const mutations = {
-    increment(state) {
-        state.count++;
-    },
-    decrement(state) {
-        if (state.count > 1) {
-        state.count--;
+    setAdminData(state, payload) {
+        state.user = {
+            mno: payload.mno,
+            mid: payload.mid,
+            name: payload.name,
+            mcode: payload.mcode,
+            gcode: payload.gcode,
+            gname: payload.gname,
+            position: payload.position
         }
     },
-    updateTime() {
-        // localStorage.setItem("_t", new Date().getTime());
+    setMenuAuthList(state) {
+        state.menus = []
+        for (let i in authList) {
+            
+        }
     }
 };
 

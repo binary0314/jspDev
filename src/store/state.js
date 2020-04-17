@@ -1,13 +1,24 @@
 // Global Store state
 const state = {
-    adminInfo: null,
-    authMenuList: null,
-    count: 1,
+    /*
     user: {
-        name: "Arnav"
+        mno: "32",
+        mid: "sunge0314",
+        name: "박재성",
+        mcodde: "GD10114"
     },
-    foo: {
-        bar: "baz"
+    auth: {
+        menus: [
+            "/account/staff",
+            "/account/info",
+            "/account/staff-regist",
+            "/account/staff-detail"
+        ]
+    }
+    */
+    user: {},
+    auth: {
+        menus: []
     }
 };
   

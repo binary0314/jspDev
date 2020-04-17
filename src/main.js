@@ -36,12 +36,12 @@ export default async function(Vue, { appOptions, isClient }) {
 
         lang = window.navigator.language.split("-")[0];
 
-        // HTTP프로토콜 HTTPS로 변경 ( build시 아래 주석 해제 필요. )
-        if (window.location.protocol == "http:") {
-            // window.location.href = window.location.href.replace("http:", "https:");
+        // HTTP프로토콜 HTTPS로 변경
+        if (window.location.protocol == "http:" && process.env.GRIDOMSE_DEV_MODE == false) {
+            window.location.href = window.location.href.replace("http:", "https:");
         }
-  
     }
+    
     const supportedLanguages = ["ko", "ja"];
     lang = supportedLanguages.includes(lang) ? lang : "ko";
     appOptions.i18n = new VueI18n({

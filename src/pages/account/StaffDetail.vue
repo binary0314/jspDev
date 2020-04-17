@@ -115,7 +115,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'get',
-                    url: '/godoService/member/admin',
+                    url: '/memberService/member/admin',
                     params: {
                         secureYn: 'N',
                         searchType: 'mno',
@@ -150,7 +150,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'get',
-                    url: '/godoService/member/group',
+                    url: '/memberService/member/group',
                     params: {
                         searchTarget: 'team',
                         searchValue: 'all'
@@ -200,7 +200,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'put',
-                    url: '/godoService/member/admin/'+this.idx,
+                    url: '/memberService/member/admin/'+this.idx,
                     data: $('form[name=staffDetailFm]').serialize()
                 });
                 this.sendStatus = false;

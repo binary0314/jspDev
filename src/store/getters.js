@@ -1,7 +1,10 @@
 // Global Store getters
 const getters = {
-    doneTodosCount: (state) => {
-        return state.count
+    getUser: (state) => {
+        return state.user
+    },
+    getMenuAuth: (state) => {
+        return state.auth.menus
     }
 }
 

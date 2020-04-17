@@ -1,7 +1,10 @@
 // Global Store Actions
 const actions = {
-    increment ({ commit }) {
-        commit('increment')
+    setAdminData ({ commit }, payload) {
+        commit('setAdminData', payload)
+    },
+    setMenuAuthList ({ commit }) {
+        commit('setMenuAuthList')
     }
 }
 

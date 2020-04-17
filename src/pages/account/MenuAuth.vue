@@ -104,7 +104,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'get',
-                    url: '/godoService/member/group',
+                    url: '/memberService/member/group',
                     params: {
                         searchTarget: 'team',
                         searchValue: 'all'
@@ -136,7 +136,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'get',
-                    url: '/godoService/member/menu-auth',
+                    url: '/memberService/member/menu-auth',
                     params: {
                         searchType: 'path',
                         searchValue: path
@@ -169,7 +169,7 @@ export default {
                 try {
                     let response = await this.sendInstance({
                         method: 'get',
-                        url: '/godoService/member/admin',
+                        url: '/memberService/member/admin',
                         params: {
                             secureYn: 'Y',
                             searchType: 'gcode',
@@ -223,7 +223,7 @@ export default {
             try {
                 let response = await this.sendInstance({
                     method: 'post',
-                    url: '/godoService/member/menu-auth',
+                    url: '/memberService/member/menu-auth',
                     data: {mno: this.adminSelected, path: this.pathSelected}
                 });
                 this.sendStatus = false;
@@ -255,7 +255,7 @@ export default {
                 try {
                     let response = await this.sendInstance({
                         method: 'delete',
-                        url: '/godoService/member/menu-auth/'+mno,
+                        url: '/memberService/member/menu-auth/'+mno,
                         data: {path: this.pathSelected}
                     });
                     this.sendStatus = false;
