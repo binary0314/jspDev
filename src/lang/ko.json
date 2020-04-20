@@ -54,6 +54,7 @@
         "delete_suc":"삭제 되었습니다."
     },
     "errMsg": {
+        "param_err":"다음 항목을 입력하세요",
         "http_err":"데이터를 불러오는데 실패하였습니다.",
         "regist_err":"데이터를 저장하는데 실패하였습니다.",
         "update_err":"데이터를 수정하는데 실패하였습니다.",
@@ -66,7 +67,50 @@
     },
     "pageMsg": {
         "staff": {
-
+            "title1":"조직 검색",
+            "title2":"팀 검색",
+            "title3":"상세 조건",
+            "title4":"번호",
+            "title5":"아이디",
+            "title6":"이름",
+            "title7":"직위",
+            "title8":"직책/소속",
+            "title9":"내선번호",
+            "title10":"연락처",
+            "title11":"메일주소",
+            "title12":"입사일",
+            "title13":"명령"
+        },
+        "staffRegist": {
+            "title1":"계정등록",
+            "title2":"이름",
+            "title3":"아이디",
+            "title4":"사번",
+            "title5":"입사일",
+            "title6":"비밀번호",
+            "title7":"비밀번호 확인",
+            "title8":"소속/직책",
+            "title9":"이메일",
+            "title10":"휴대전화",
+            "title11":"내선번호",
+            "title12":"관리자 IP",
+            "title13":"- 제외",
+            "title14":"4자리",
+            "title15":"비밀번호가 일치하지 않습니다."
+        },
+        "staffDetail": {
+            "title1":"계정수정",
+            "title2":"이름",
+            "title3":"아이디",
+            "title4":"사번",
+            "title5":"입사일",
+            "title6":"소속/직책",
+            "title7":"이메일",
+            "title8":"휴대전화",
+            "title9":"내선번호",
+            "title10":"관리자 IP",
+            "title11":"- 제외",
+            "title12":"4자리"
         },
         "menu_auth": {
             "title1":"메뉴선택",
@@ -81,8 +125,18 @@
     "lang":"한국어",
     "notAuth":"해당 페이지 권한이 없습니다.",
     "notLogin":"로그인이 필요합니다. 로그인 페이지로 이동합니다.",
+    "btnRegist":"등록하기",
     "btnSave":"저장",
+    "btnModify":"수정",
     "btnDel":"삭제",
     "btnSearch":"검색",
-    "detaultSelect":"선택하세요"
+    "btnReset":"초기화",
+    "btnDetail":"상세",
+    "btnList":"목록",
+    "defaultSelect":"선택하세요",
+    "name":"이름",
+    "searchbarPlaceholder":"검색명",
+    "ListDataEmpty":"리스트 결과가 없습니다.",
+    "leader":"팀장",
+    "follower":"팀원"
 }

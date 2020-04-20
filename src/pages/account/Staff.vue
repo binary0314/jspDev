@@ -4,7 +4,7 @@
             <div class="card-header">
                 {{ $t('menus.account.title') }} > {{ $t('menus.account.staff') }}
                 <div class="pull-right">
-                    <g-link to="/account/staff-regist" role="button" class="btn btn-sm btn-primary">등록하기</g-link>
+                    <g-link to="/account/staff-regist/" role="button" class="btn btn-sm btn-primary">{{ $t('btnRegist') }}</g-link>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -13,36 +13,36 @@
             <div class="card-body">
                 <form name="staffListFm" class="form-horizontal" role="form" @submit.prevent="onSearch">
                     <div class="form-row">
-                        <label for="inputSelect" class="col-sm-1 col-form-label">조직 검색</label>
+                        <label for="inputSelect" class="col-sm-1 col-form-label">{{ $t('pageMsg.staff.title1') }}</label>
                         <div class="form-group col-md-4">
                             <select id="inputSelect" class="form-control" v-model="groupSelected" @change="teamSearch">
-                                <option value="">선택하세요</option>
+                                <option value="">{{ $t('defaultSelect') }}</option>
                                 <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode">{{ group.groupName }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
-                        <label for="inputSelect" class="col-sm-1 col-form-label">팀 검색</label>
+                        <label for="inputSelect" class="col-sm-1 col-form-label">{{ $t('pageMsg.staff.title2') }}</label>
                         <div class="form-group col-md-4">
                             <select id="inputSelect" class="form-control" v-model="teamSelected" @change="adminSearch">
-                                <option value="">선택하세요</option>
+                                <option value="">{{ $t('defaultSelect') }}</option>
                                 <option v-for="team in teams" :key="team.groupCode" :value="team.groupCode">{{ team.groupName }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-row">
-                        <label for="keyword" class="col-sm-1 col-form-label">상세 조건</label>
+                        <label for="keyword" class="col-sm-1 col-form-label">{{ $t('pageMsg.staff.title3') }}</label>
                         <div class="form-group col-sm-1">
                             <select class="form-control" name="searchType">
-                                <option value="name">이름</option>
+                                <option value="name">{{ $t('name') }}</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-4">
-                            <input type="text" class="form-control" id="keyword" name="keyword" value="" placeholder="검색명">
+                            <input type="text" class="form-control" id="keyword" name="keyword" value="" :placeholder="$t('searchbarPlaceholder')">
                         </div>
                         <div class="form-group col-sm-3">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 검색</button>&nbsp;
-                            <button type="button" class="btn btn-outline-secondary" @click="reset"><i class="fa fa-refresh"></i> 초기화</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> {{ $t('btnSearch') }}</button>&nbsp;
+                            <button type="button" class="btn btn-outline-secondary" @click="reset"><i class="fa fa-refresh"></i> {{ $t('btnReset') }}</button>
                         </div>
                     </div>
                 </form>
@@ -54,21 +54,21 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr class="text-center">
-                            <th>번호</th>
-                            <th>아이디</th>
-                            <th>이름</th>
-                            <th>직위</th>
-                            <th>직책/소속</th>
-                            <th>내선번호</th>
-                            <th>연락처</th>
-                            <th>메일주소</th>
-                            <th>입사일</th>
-                            <th>명령</th>
+                            <th>{{ $t('pageMsg.staff.title4') }}</th>
+                            <th>{{ $t('pageMsg.staff.title5') }}</th>
+                            <th>{{ $t('pageMsg.staff.title6') }}</th>
+                            <th>{{ $t('pageMsg.staff.title7') }}</th>
+                            <th>{{ $t('pageMsg.staff.title8') }}</th>
+                            <th>{{ $t('pageMsg.staff.title9') }}</th>
+                            <th>{{ $t('pageMsg.staff.title10') }}</th>
+                            <th>{{ $t('pageMsg.staff.title11') }}</th>
+                            <th>{{ $t('pageMsg.staff.title12') }}</th>
+                            <th>{{ $t('pageMsg.staff.title13') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-if="this.totalCount <= 0" class="text-center">
-                            <td colspan="10"><h5><em>리스트 결과가 없습니다.</em></h5></td>
+                            <td colspan="10"><h5><em>{{ $t('ListDataEmpty') }}</em></h5></td>
                         </tr>
                         <tr v-else v-for="(admin, index) in admins" :key="admin.adminId" class="text-center">
                             <td>{{ totalCount - index }}</td>
@@ -76,10 +76,10 @@
                             <td>{{ admin.name }}</td>
                             <td>
                                 <template v-if="admin.position == 'leader'">
-                                    팀장
+                                    {{ $t('leader') }}
                                 </template>
                                 <template v-else>
-                                    팀원
+                                    {{ $t('follower') }}
                                 </template>
                             </td>
                             <td>{{ admin.gname }}</td>
@@ -88,7 +88,7 @@
                             <td>{{ admin.mail }}</td>
                             <td>{{ admin.sdate }}</td>
                             <td>
-                                <g-link :to="'/account/staff-detail?idx='+admin.mno" role="button" class="btn btn-outline-secondary"><i class="fa fa-search-plus"></i>상세</g-link>
+                                <g-link :to="'/account/staff-detail/?idx='+admin.mno" role="button" class="btn btn-outline-secondary"><i class="fa fa-search-plus"></i>{{ $t('btnDetail') }}</g-link>
                             </td>
                         </tr>
                     </tbody>

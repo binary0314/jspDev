@@ -54,6 +54,7 @@
         "delete_suc":"削除された。"
     },
     "errMsg": {
+        "param_err":"次の項目を入力してください",
         "http_err":"データをロードに失敗しました。",
         "regist_err":"データを保存するのに失敗しました。",
         "update_err":"データを変更するのに失敗しました。",
@@ -66,7 +67,50 @@
     },
     "pageMsg": {
         "staff": {
-
+            "title1":"組織検索",
+            "title2":"チーム検索",
+            "title3":"詳細条件",
+            "title4":"番号",
+            "title5":"ユーザ名",
+            "title6":"名前",
+            "title7":"役職",
+            "title8":"職責/所属",
+            "title9":"内線番号",
+            "title10":"コンタクト",
+            "title11":"メールアドレス",
+            "title12":"入社日",
+            "title13":"コマンド"
+        },
+        "staffRegist": {
+            "title1":"アカウント登録",
+            "title2":"名前",
+            "title3":"ユーザ名",
+            "title4":"社員番号",
+            "title5":"入社日",
+            "title6":"パスワード",
+            "title7":"パスワードの確認",
+            "title8":"所属/役職",
+            "title9":"メール",
+            "title10":"携帯電話",
+            "title11":"内線番号",
+            "title12":"管理者IP",
+            "title13":" - を除く",
+            "title14":"4桁の",
+            "title15":"パスワードが一致しません。"
+        },
+        "staffDetail": {
+            "title1":"アカウントの変更",
+            "title2":"名前",
+            "title3":"ユーザ名",
+            "title4":"社員番号",
+            "title5":"入社日",
+            "title6":"所属/役職",
+            "title7":"メール",
+            "title8":"携帯電話",
+            "title9":"内線番号",
+            "title10":"管理者IP",
+            "title11":" - を除く",
+            "title12":"4桁の"
         },
         "menu_auth": {
             "title1":"メニュー選択",
@@ -81,8 +125,18 @@
     "lang":"日本",
     "notAuth":"そのページの権限がありません。",
     "notLogin":"ログインが必要です。ログインページに移動します。",
+    "btnRegist":"登録する",
     "btnSave":"保存",
+    "btnModify":"修正",
     "btnDel":"削除",
     "btnSearch":"検索",
-    "detaultSelect":"選択してください"
+    "btnReset":"初期化",
+    "btnDetail":"詳細",
+    "btnList":"リスト",
+    "defaultSelect":"選択してください",
+    "name":"名前",
+    "searchbarPlaceholder":"検索人",
+    "ListDataEmpty":"リストの結果がありません。",
+    "leader":"長",
+    "follower":"チームメンバー"
 }

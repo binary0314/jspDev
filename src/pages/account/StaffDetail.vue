@@ -1,28 +1,28 @@
 <template>
     <Layout>
         <div class="card">
-            <div class="card-header">{{ $t('menus.account.title') }} > {{ $t('menus.account.staff') }} > 계정 수정</div>
+            <div class="card-header">{{ $t('menus.account.title') }} > {{ $t('menus.account.staff') }} > {{ $t('pageMsg.staffDetail.title1') }}</div>
             <div class="card-body">
                 <form name="staffDetailFm" class="form-horizontal" role="form" @submit.prevent="onSave">
                     <input type="hidden" name="mid" :value="adminInfo.mid"/>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">이름</label>
+                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title2') }}</label>
                                 <div class="form-group col-sm-4">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.name">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">아이디</label>
+                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title3') }}</label>
                                 <div class="form-group col-sm-4">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.mid">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">사번</label>
+                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title4') }}</label>
                                 <div class="form-group col-sm-4">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.mcode">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">입사일</label>
+                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title5') }}</label>
                                 <div class="form-group col-sm-4">
                                     <input type="text" class="form-control" name="sdate" :value="adminInfo.sdate" placeholder="yyyy-mm-dd">
                                 </div>
@@ -30,36 +30,36 @@
                         </li>
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">소속/직책</label>
+                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title6') }}</label>
                                 <div class="form-group col-md-4">
                                     <select class="form-control" name="gcode[]">
-                                        <option value="">선택하세요</option>
+                                        <option value="">{{ $t('defaultSelect') }}</option>
                                         <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode" :selected="group.groupCode == adminInfo.gcode">{{ group.groupName }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <select class="form-control" name="position[]">
-                                        <option value="follower" :selected="adminInfo.position == 'follower'">구성원</option>
-                                        <option value="leader" :selected="adminInfo.position == 'leader'">리더</option>
+                                        <option value="follower" :selected="adminInfo.position == 'follower'">{{ $t('follower') }}</option>
+                                        <option value="leader" :selected="adminInfo.position == 'leader'">{{ $t('leader') }}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">이메일</label>
+                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title7') }}</label>
                                 <div class="form-group col-sm-4">
                                     <input type="text" class="form-control" name="mail" :value="adminInfo.mail">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">휴대전화</label>
+                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title8') }}</label>
                                 <div class="form-group col-sm-4">
-                                    <input type="text" class="form-control" name="phone" :value="adminInfo.phone" placeholder="- 제외">
+                                    <input type="text" class="form-control" name="phone" :value="adminInfo.phone" :placeholder="$t('pageMsg.staffRegist.title11')">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">내선번호</label>
+                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title9') }}</label>
                                 <div class="form-group col-sm-4">
-                                    <input type="text" class="form-control" name="inline" :value="adminInfo.inline" placeholder="4자리">
+                                    <input type="text" class="form-control" name="inline" :value="adminInfo.inline" :placeholder="$t('pageMsg.staffRegist.title12')">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">관리자 IP</label>
+                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title10') }}</label>
                                 <div class="form-group col-sm-4">
                                     <input type="text" class="form-control" name="ip" :value="adminInfo.ip">
                                 </div>
@@ -68,8 +68,8 @@
                         <li class="list-group-item">
                             <div class="form-row">
                                 <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-check"></i> 수정하기</button>&nbsp;
-                                    <g-link to="/account/staff" role="button" class="btn btn-outline-secondary btn-lg"><i class="fa fa-list"></i> 목록</g-link>
+                                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-check"></i> {{ $t('btnModify') }}</button>&nbsp;
+                                    <g-link to="/account/staff/" role="button" class="btn btn-outline-secondary btn-lg"><i class="fa fa-list"></i> {{ $t('btnList') }}</g-link>
                                 </div>
                             </div>
                         </li>
@@ -174,22 +174,22 @@ export default {
         },
         async onSave() {
             if ($('input[name=sdate]').val().length <= 0) {
-                alert('다음 항목을 입력하세요 : 입사일');
+                alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.staffDetail.title5'));
                 $('input[name=sdate]').focus();
                 return false;
             }
             if ($("select[name='gcode[]']:eq(0)").val().length <= 0) {
-                alert('다음 항목을 입력하세요 : 소속/직책');
+                alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.staffDetail.title6'));
                 $("select[name='gcode[]']").focus();
                 return false;
             }
             if ($('input[name=mail]').val().length <= 0) {
-                alert('다음 항목을 입력하세요 : 이메일');
+                alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.staffDetail.title7'));
                 $('input[name=mail]').focus();
                 return false;
             }
             if ($('input[name=phone]').val().length <= 0) {
-                alert('다음 항목을 입력하세요 : 휴대전화');
+                alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.staffDetail.title8'));
                 $('input[name=phone]').focus();
                 return false;
             }

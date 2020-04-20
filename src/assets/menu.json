@@ -3,31 +3,31 @@
         "lang":"menus.account.title",
         "path":"account",
         "links":[
-            "/account/staff",
-            "/account/menu-auth",
-            "/account/info",
-            "/account/staff-regist",
-            "/account/staff-detail"
+            "/account/staff/",
+            "/account/menu-auth/",
+            "/account/info/",
+            "/account/staff-regist/",
+            "/account/staff-detail/"
         ],
         "pages": [
             {
                 "lang":"menus.account.staff",
-                "link":"/account/staff",
+                "link":"/account/staff/",
                 "form":[
-                    "/account/staff-regist",
-                    "/account/staff-detail"
+                    "/account/staff-regist/",
+                    "/account/staff-detail/"
                 ],
                 "sub": []
             },
             {
                 "lang":"menus.account.menu_auth",
-                "link":"/account/menu-auth",
+                "link":"/account/menu-auth/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.account.info",
-                "link":"/account/info",
+                "link":"/account/info/",
                 "form": [],
                 "sub": []
             }
@@ -37,26 +37,26 @@
         "lang":"menus.platform_goods.title",
         "path":"platform-goods",
         "links":[
-            "/platform-goods/basic",
-            "/platform-goods/promotion",
-            "/platform-goods/server"
+            "/platform-goods/basic/",
+            "/platform-goods/promotion/",
+            "/platform-goods/server/"
         ],
         "pages": [
             {
                 "lang":"menus.platform_goods.basic",
-                "link":"/platform-goods/basic",
+                "link":"/platform-goods/basic/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.platform_goods.promotion",
-                "link":"/platform-goods/promotion",
+                "link":"/platform-goods/promotion/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.platform_goods.server",
-                "link":"/platform-goods/server",
+                "link":"/platform-goods/server/",
                 "form": [],
                 "sub": []
             }
@@ -66,36 +66,36 @@
         "lang":"menus.platform_regist.title",
         "path":"platform-regist",
         "links":[
-            "/platform-goods/basic",
-            "/platform-goods/promotion",
-            "/platform-goods/server"
+            "/platform-goods/basic/",
+            "/platform-goods/promotion/",
+            "/platform-goods/server/"
         ],
         "pages": [
             {
                 "lang":"menus.platform_regist.shopby_regist",
-                "link":"/platform-regist/shopby-regist",
+                "link":"/platform-regist/shopby-regist/",
                 "form": [],
                 "subId":"menuBtnShopbyRegist",
                 "sub": [
                     {
                         "lang":"menus.platform_regist.shopby_regist",
-                        "link":"/platform-regist/shopby-regist"
+                        "link":"/platform-regist/shopby-regist/"
                     },
                     {
                         "lang":"menus.platform_regist.shopby_regist_detail",
-                        "link":"/platform-regist/shopby-regist-detail"
+                        "link":"/platform-regist/shopby-regist-detail/"
                     }
                 ]
             },
             {
                 "lang":"menus.platform_regist.popup",
-                "link":"/platform-regist/popup",
+                "link":"/platform-regist/popup/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.platform_regist.domain",
-                "link":"/platform-regist/domain",
+                "link":"/platform-regist/domain/",
                 "form": [],
                 "sub": []
             }
@@ -105,26 +105,26 @@
         "lang":"menus.addservice.title",
         "path":"addservice",
         "links":[
-            "/platform-goods/basic",
-            "/platform-goods/promotion",
-            "/platform-goods/server"
+            "/platform-goods/basic/",
+            "/platform-goods/promotion/",
+            "/platform-goods/server/"
         ],
         "pages": [
             {
                 "lang":"menus.addservice.pg",
-                "link":"/addservice/pg",
+                "link":"/addservice/pg/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.addservice.taxbill",
-                "link":"/addservice/taxbill",
+                "link":"/addservice/taxbill/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.addservice.secure_server",
-                "link":"/addservice/secure-server",
+                "link":"/addservice/secure-server/",
                 "form": [],
                 "sub": []
             }
@@ -134,32 +134,32 @@
         "lang":"menus.finance.title",
         "path":"finance",
         "links":[
-            "/platform-goods/basic",
-            "/platform-goods/promotion",
-            "/platform-goods/server"
+            "/platform-goods/basic/",
+            "/platform-goods/promotion/",
+            "/platform-goods/server/"
         ],
         "pages": [
             {
                 "lang":"menus.finance.termination",
-                "link":"/finance/termination",
+                "link":"/finance/termination/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.finance.receipts",
-                "link":"/finance/receipts",
+                "link":"/finance/receipts/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.finance.neon",
-                "link":"/finance/neon",
+                "link":"/finance/neon/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.finance.taxbill",
-                "link":"/finance/taxbill",
+                "link":"/finance/taxbill/",
                 "form": [],
                 "sub": []
             }
@@ -169,20 +169,20 @@
         "lang":"menus.board.title",
         "path":"board",
         "links":[
-            "/platform-goods/basic",
-            "/platform-goods/promotion",
-            "/platform-goods/server"
+            "/platform-goods/basic/",
+            "/platform-goods/promotion/",
+            "/platform-goods/server/"
         ],
         "pages": [
             {
                 "lang":"menus.board.inquiry",
-                "link":"/board/inquiry",
+                "link":"/board/inquiry/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.board.notice",
-                "link":"/board/notice",
+                "link":"/board/notice/",
                 "form": [],
                 "sub": []
             }
@@ -192,14 +192,14 @@
         "lang":"menus.statistics.title",
         "path":"statistics",
         "links":[
-            "/platform-goods/basic",
-            "/platform-goods/promotion",
-            "/platform-goods/server"
+            "/platform-goods/basic/",
+            "/platform-goods/promotion/",
+            "/platform-goods/server/"
         ],
         "pages": [
             {
                 "lang":"menus.statistics.shop_regist",
-                "link":"/statistics/shop-regist",
+                "link":"/statistics/shop-regist/",
                 "form": [],
                 "sub": []
             }
@@ -209,26 +209,26 @@
         "lang":"menus.log.title",
         "path":"log",
         "links":[
-            "/platform-goods/basic",
-            "/platform-goods/promotion",
-            "/platform-goods/server"
+            "/platform-goods/basic/",
+            "/platform-goods/promotion/",
+            "/platform-goods/server/"
         ],
         "pages": [
             {
                 "lang":"menus.log.mail",
-                "link":"/log/mail",
+                "link":"/log/mail/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.log.login",
-                "link":"/log/login",
+                "link":"/log/login/",
                 "form": [],
                 "sub": []
             },
             {
                 "lang":"menus.log.auth",
-                "link":"/log/auth",
+                "link":"/log/auth/",
                 "form": [],
                 "sub": []
             }

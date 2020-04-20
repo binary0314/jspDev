@@ -40,13 +40,13 @@
                                 <label class="col-sm-1 col-form-label">{{ $t('pageMsg.menu_auth.title4') }}</label>
                                 <div class="form-group col-md-4">
                                     <select class="form-control" v-model="teamSelected" @change="adminSearch">
-                                        <option value="">{{ $t('detaultSelect') }}</option>
+                                        <option value="">{{ $t('defaultSelect') }}</option>
                                         <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode">{{ group.groupName }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <select class="form-control" v-model="adminSelected">
-                                        <option value="">{{ $t('detaultSelect') }}</option>
+                                        <option value="">{{ $t('defaultSelect') }}</option>
                                         <option v-for="admin in admins" :key="admin.adminId" :value="admin.mno">{{ admin.name }} ({{ admin.mid }})</option>
                                     </select>
                                 </div>
@@ -74,8 +74,6 @@ export default {
     
      data: function() {
         return {
-            sendStatus: false,
-            sendInstance: false,
             menus: menus,
             menuAuth: {},
             groups: {},
@@ -88,7 +86,14 @@ export default {
     },
     methods: {
         async init() {
-            this.sendInstance = axios.create({
+            this.$status = {
+                getGroup: false,
+                getMenuAuth: false,
+                getAdmin: false,
+                addMenuAuth: false,
+                delMenuAuth: false
+            };
+            this.$http = await axios.create({
                 baseURL: process.env.GRIDSOME_CORE_API_URL,
                 proxyHeaders: false,
                 credentials: false,
@@ -97,12 +102,12 @@ export default {
             await this.menuSearch();
         },
         async menuSearch() {
-            if (this.sendStatus === true) {
+            if (this.$status.getGroup === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.getGroup = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'get',
                     url: '/memberService/member/group',
                     params: {
@@ -110,12 +115,12 @@ export default {
                         searchValue: 'all'
                     }
                 });
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -129,12 +134,12 @@ export default {
         async menuSelected(path, lang) {
             this.pathSelected = path;
             this.langSelected = lang;
-            if (this.sendStatus === true) {
+            if (this.$status.getMenuAuth === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.getMenuAuth = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'get',
                     url: '/memberService/member/menu-auth',
                     params: {
@@ -142,12 +147,12 @@ export default {
                         searchValue: path
                     }
                 });
-                this.sendStatus = false;
+                this.$status.getMenuAuth = false;
                 if (response.data.msg.resultCode == 0) {
                     this.menuAuth = response.data.msg.data;
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.getMenuAuth = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -162,12 +167,12 @@ export default {
             if (this.teamSelected == '') {
                 this.adminSearch = {};
             } else {
-                if (this.sendStatus === true) {
+                if (this.$status.getAdmin === true) {
                     return false;
                 }
-                this.sendStatus = true;
+                this.$status.getAdmin = true;
                 try {
-                    let response = await this.sendInstance({
+                    let response = await this.$http({
                         method: 'get',
                         url: '/memberService/member/admin',
                         params: {
@@ -176,12 +181,12 @@ export default {
                             searchValue: this.teamSelected
                         }
                     });
-                    this.sendStatus = false;
+                    this.$status.getAdmin = false;
                     if (response.data.msg.resultCode == 0) {
                         this.admins = response.data.msg.data;
                     }
                 } catch (error) {
-                    this.sendStatus = false;
+                    this.$status.getAdmin = false;
                     if (error.response) {
                         console.log(error.response);
                     } else if (error.request) {
@@ -216,23 +221,23 @@ export default {
                 return false;
             }
 
-            if (this.sendStatus === true) {
+            if (this.$status.addMenuAuth === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.addMenuAuth = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'post',
                     url: '/memberService/member/menu-auth',
                     data: {mno: this.adminSelected, path: this.pathSelected}
                 });
-                this.sendStatus = false;
+                this.$status.addMenuAuth = false;
                 if (response.status === 201) {
                     alert(this.$i18n.t('sucMsg.regist_suc'));
                     await this.menuSelected(this.pathSelected, this.langSelected);
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.addMenuAuth = false;
                 if (error.response) {
                     console.log(error.response);
                     if (error.response.status == 400) {
@@ -251,20 +256,23 @@ export default {
         },
         async removeManager(mno) {
             let message = this.$i18n.t('conMsg.delete_con');
-            if (confirm(message)) {
+            if (this.$status.delMenuAuth === true) {
+                return false;
+            }
+            if (confirm(message)) {                
                 try {
-                    let response = await this.sendInstance({
+                    let response = await this.$http({
                         method: 'delete',
                         url: '/memberService/member/menu-auth/'+mno,
                         data: {path: this.pathSelected}
                     });
-                    this.sendStatus = false;
+                    this.$status.delMenuAuth = false;
                     if (response.status === 204) {
                         alert(this.$i18n.t('sucMsg.delete_suc'));
                         await this.menuSelected(this.pathSelected, this.langSelected);
                     }
                 } catch (error) {
-                    this.sendStatus = false;
+                    this.$status.delMenuAuth = false;
                     if (error.response) {
                         console.log(error.response);
                         if (error.response.status == 400) {

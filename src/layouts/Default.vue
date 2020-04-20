@@ -3,13 +3,13 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
         
         <!-- goms gnb load -->
-        <template v-if="pathname != '/login'">
+        <template v-if="pathname != '/login/'">
             <Gnb/>
         </template>
         <div class="row no-gutters">
             <div class="col-md-12">
                 <div class="wrapper d-flex align-items-stretch">
-                    <nav id="sidebar" v-if="pathname != '/' && pathname != '/login'">
+                    <nav id="sidebar" v-if="pathname != '/' && pathname != '/login/'">
                         <div class="custom-menu">
                             <button type="button" id="sidebarCollapse" class="btn btn-primary">
                                 <i class="fa fa-bars"></i>
@@ -97,12 +97,12 @@ export default {
         // 로그인 및 시간 체크
         if (this.pathname != '/login' && Object.keys(this.getUserSession).length <= 0) {
             // alert(this.$i18n.t('notLogin'));
-            // this.$router.push('/login');
+            // this.$router.push('/login/');
         }
         if (localStorage.getItem("_t") <= (new Date().getTime() - (900 * 1000))) {
             // 기존 데이터 삭제 후 로그인 페이지로 보내기
             // alert(this.$i18n.t('notLogin'));
-            // this.$router.push('/login');
+            // this.$router.push('/login/');
         }
         
         // 로그인 시간 자동 저장
