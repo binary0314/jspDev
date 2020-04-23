@@ -5,16 +5,13 @@ const mutations = {
             mno: payload.mno,
             mid: payload.mid,
             name: payload.name,
-            mcode: payload.mcode,
-            gcode: payload.gcode,
-            gname: payload.gname,
-            position: payload.position
+            gname: payload.gname
         }
     },
-    setMenuAuthList(state) {
-        state.menus = []
-        for (let i in authList) {
-            
+    setMenuAuthList(state, payload) {
+        state.auth.menus = []
+        for (let i in payload) {
+            state.auth.menus.push(payload[i].path)
         }
     }
 };

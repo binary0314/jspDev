@@ -66,6 +66,12 @@
         "delete_con":"削除しますか？"
     },
     "pageMsg": {
+        "login": {
+            "title1":"ログイン",
+            "title2":"管理者ID",
+            "title3":"パスワード",
+            "login_suc":"ログインが完了しました。"
+        },
         "staff": {
             "title1":"組織検索",
             "title2":"チーム検索",

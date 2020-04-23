@@ -22,13 +22,12 @@
 
                     <div id="content" class="p-4 p-md-5 pt-5">
                         <!-- goms contents load -->
-                        <!--template v-if="pathname == '/' || pathname == '/login' || getMenuAuthSession.includes(pathname)">
+                        <template v-if="pathname == '/' || pathname == '/login/' || getMenuAuthSession.includes(pathname)">
                             <slot/>
                         </template>
                         <template v-else>
                             {{ $t('notAuth') }}
-                        </template-->
-                        <slot/>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -67,12 +66,17 @@ export default {
         };
     },
     methods: {
-        setData: function() {
+        async init() {
+            await this.pageInit();
+            await this.setData();
+            await this.loginCheck();
+        },
+        async setData() {
             if (typeof window !== "undefined") {
                 this.pathname = window.location.pathname;
             }
         },
-        pageInit: function() {
+        async pageInit() {
             $(".js-fullheight").css("height", $(window).height());
             $(window).resize(function() {
                 $(".js-fullheight").css("height", $(window).height());
@@ -80,6 +84,75 @@ export default {
             $("#sidebarCollapse").on("click", function() {
                 $("#sidebar").toggleClass("active");
             });
+        },
+        async loginCheck() {
+            if (this.pathname != '/login/') {
+                if (this.getCookie('gdsid') !== null) {
+                    // store에 값이 있으면 통신하지 않고 그대로 사용
+                    if (Object.keys(this.getUserSession).length <= 0) {
+                        await this.getLoginData();
+                    }
+                } else {
+                    alert(this.$i18n.t('notLogin'));
+                    this.$router.push('/login/');   
+                }
+
+                // 메뉴권한 가져오기
+                if (Object.keys(this.getMenuAuthSession).length <= 0) {
+                    await this.getMenuAuthData();
+                }
+            }
+        },
+        async getLoginData() {
+            try {
+                let sid = this.getCookie('gdsid');
+                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/memberService/login/admin', {
+                    params: {
+                        sid: sid
+                    }
+                });
+                if (response.data.msg.resultCode == 0 && response.data.msg.data !== null) {
+                    this.loginAssign(response.data.msg.data);
+                } else {
+                    alert(this.$i18n.t('notLogin'));
+                    this.$router.push('/login/'); 
+                }
+            } catch (error) {
+                alert(this.$i18n.t('notLogin'));
+                this.$router.push('/login/'); 
+            }
+        },
+        async getMenuAuthData() {
+            try {
+                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/memberService/member/menu-auth', {
+                    params: {
+                        searchType: 'mid',
+                        searchValue: this.getUserSession.mid
+                    }
+                });
+                if (response.data.msg.resultCode == 0) {
+                    this.menuAuthAssign(response.data.msg.data);
+                }
+            } catch (error) {
+                if (error.response) {
+                    console.log(error.response);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                alert(this.$i18n.t('errMsg.http_err'));
+            }
+        },
+        loginAssign(adminInfo) {
+            this.$store.dispatch('setAdminData', adminInfo)
+        },
+        menuAuthAssign(menuList) {
+            this.$store.dispatch('setMenuAuthList', menuList)
+        },
+        getCookie(name) {
+            let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return value ? value[2]:null;
         }
     },
     computed: {
@@ -91,22 +164,7 @@ export default {
         }
     },
     mounted: function() {
-        this.pageInit();
-        this.setData();
-
-        // 로그인 및 시간 체크
-        if (this.pathname != '/login' && Object.keys(this.getUserSession).length <= 0) {
-            // alert(this.$i18n.t('notLogin'));
-            // this.$router.push('/login/');
-        }
-        if (localStorage.getItem("_t") <= (new Date().getTime() - (900 * 1000))) {
-            // 기존 데이터 삭제 후 로그인 페이지로 보내기
-            // alert(this.$i18n.t('notLogin'));
-            // this.$router.push('/login/');
-        }
-        
-        // 로그인 시간 자동 저장
-        localStorage.setItem("_t", new Date().getTime());
+        this.init();
     }
 }
 </script>

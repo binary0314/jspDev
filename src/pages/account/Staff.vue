@@ -104,8 +104,6 @@ export default {
     
      data: function() {
         return {
-            sendStatus: false,
-            sendInstance: false,
             groups: {},
             teams: {},
             admins: {},
@@ -116,7 +114,12 @@ export default {
     },
     methods: {
         async init() {
-            this.sendInstance = axios.create({
+            this.$status = {
+                getGroup: false,
+                getTeam: false,
+                getAdmin: false
+            };
+            this.$http = await axios.create({
                 baseURL: process.env.GRIDSOME_CORE_API_URL,
                 proxyHeaders: false,
                 credentials: false,
@@ -125,12 +128,12 @@ export default {
             await this.groupSearch();
         },
         async groupSearch() {
-            if (this.sendStatus === true) {
+            if (this.$status.getGroup === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.getGroup = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'get',
                     url: '/memberService/member/group',
                     params: {
@@ -138,12 +141,12 @@ export default {
                         searchValue: 'all'
                     }
                 });
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -158,12 +161,12 @@ export default {
             if (this.groupSelected == '') {
                 this.teams = {};
             } else {
-                if (this.sendStatus === true) {
+                if (this.$status.getTeam === true) {
                     return false;
                 }
-                this.sendStatus = true;
+                this.$status.getTeam = true;
                 try {
-                    let response = await this.sendInstance({
+                    let response = await this.$http({
                         method: 'get',
                         url: '/memberService/member/group',
                         params: {
@@ -172,7 +175,7 @@ export default {
                             searchValue: this.groupSelected
                         }
                     });
-                    this.sendStatus = false;
+                    this.$status.getTeam = false;
                     if (response.data.msg.resultCode == 0) {
                         if (response.data.msg.data.length <= 0) {
                             for(let index in this.groups) {
@@ -189,7 +192,7 @@ export default {
                         }
                     }
                 } catch (error) {
-                    this.sendStatus = false;
+                    this.$status.getTeam = false;
                     if (error.response) {
                         console.log(error.response);
                     } else if (error.request) {
@@ -205,12 +208,12 @@ export default {
             if (this.teamSelected == '') {
                 this.admins = {};
             } else {
-                if (this.sendStatus === true) {
+                if (this.$status.getAdmin === true) {
                     return false;
                 }
-                this.sendStatus = true;
+                this.$status.getAdmin = true;
                 try {
-                    let response = await this.sendInstance({
+                    let response = await this.$http({
                         method: 'get',
                         url: '/memberService/member/admin',
                         params: {
@@ -219,7 +222,7 @@ export default {
                             searchValue: this.teamSelected
                         }
                     });
-                    this.sendStatus = false;
+                    this.$status.getAdmin = false;
                     if (response.data.code == 200) {
                         $('input[name=keyword]').val('');
                         this.admins = response.data.msg.data;
@@ -229,7 +232,7 @@ export default {
                         alert(this.$i18n.t('errMsg.http_err'));
                     }
                 } catch (error) {
-                    this.sendStatus = false;
+                    this.$status.getAdmin = false;
                     if (error.response) {
                         console.log(error.response);
                     } else if (error.request) {
@@ -247,12 +250,12 @@ export default {
             if (searchType == '' || searchValue == '') {
                 return false;
             }
-            if (this.sendStatus === true) {
+            if (this.$status.getAdmin === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.getAdmin = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'get',
                     url: '/memberService/member/admin',
                     params: {
@@ -261,7 +264,7 @@ export default {
                         searchValue: searchValue
                     }
                 });
-                this.sendStatus = false;
+                this.$status.getAdmin = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groupSelected = '';
                     this.teamSelected = '';
@@ -270,7 +273,7 @@ export default {
                     this.totalCount = Object.keys(this.admins).length;
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.getAdmin = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {

@@ -94,14 +94,16 @@ export default {
     
      data: function() {
         return {
-            sendStatus: false,
-            sendInstance: false,
             groups: {}
         };
     },
     methods: {
         async init() {
-            this.sendInstance = axios.create({
+            this.$status = {
+                getGroup: false,
+                setAdmin: false
+            };
+            this.$http = await axios.create({
                 baseURL: process.env.GRIDSOME_CORE_API_URL,
                 proxyHeaders: false,
                 credentials: false,
@@ -110,12 +112,12 @@ export default {
             await this.groupSearch();
         },
         async groupSearch() {
-            if (this.sendStatus === true) {
+            if (this.$status.getGroup === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.getGroup = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'get',
                     url: '/memberService/member/group',
                     params: {
@@ -123,12 +125,12 @@ export default {
                         searchValue: 'all'
                     }
                 });
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -190,23 +192,23 @@ export default {
                 $('input[name=phone]').focus();
                 return false;
             }
-            if (this.sendStatus === true) {
+            if (this.$status.setAdmin === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.setAdmin = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'post',
                     url: '/memberService/member/admin',
                     data: $('form[name=staffRegistFm]').serialize()
                 });
-                this.sendStatus = false;
+                this.$status.setAdmin = false;
                 if (response.status === 201) {
                     alert(this.$i18n.t('sucMsg.regist_suc'));
                     this.$router.push('/account/staff');
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.setAdmin = false;
                 if (error.response) {
                     console.log(error.response);
                     if (error.response.status == 400) {

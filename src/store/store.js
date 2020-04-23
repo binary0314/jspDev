@@ -5,10 +5,11 @@ import state from "./state";
 import getters from "./getters";
 import mutations from "./mutations";
 import actions from "./actions";
-import createPersistedState from "vuex-persistedstate";
+// import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
+/*
 let vuexLocalStorage = null;
 
 if (process.browser) {
@@ -29,11 +30,12 @@ if (process.browser) {
         }
     });
 }
+*/
 
 export default new Vuex.Store({
     getters,    // 필요한 데이터 가져다 쓸수 있도록 정의
     mutations,  // 실제 로직
     state,      // 기본적으로 필요한 정보들 정의
     actions,    // state 를 변경하는 함수역할
-    plugins: process.browser ? [vuexLocalStorage] : []
+    // plugins: process.browser ? [vuexLocalStorage] : []
 });

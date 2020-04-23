@@ -66,6 +66,12 @@
         "delete_con":"삭제 하시겠습니까?"
     },
     "pageMsg": {
+        "login": {
+            "title1":"로그인",
+            "title2":"관리자 아이디",
+            "title3":"비밀번호",
+            "login_suc":"로그인이 완료되었습니다."
+        },
         "staff": {
             "title1":"조직 검색",
             "title2":"팀 검색",

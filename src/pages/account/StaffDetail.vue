@@ -85,20 +85,23 @@ export default {
     
      data: function() {
         return {
-            idx: this.$route.query.idx,
-            sendStatus: false,
-            sendInstance: false,
             adminInfo: {},
             groups: {}
         };
     },
     methods: {
         async init() {
+            this.idx = this.$route.query.idx;
             if (this.idx <= 0) {
                 alert(this.$i18n.t('errMsg.http_err'));
                 history.back();
             }
-            this.sendInstance = axios.create({
+            this.$status = {
+                getGroup: false,
+                getAdmin: false,
+                setAdmin: false
+            };
+            this.$http = axios.create({
                 baseURL: process.env.GRIDSOME_CORE_API_URL,
                 proxyHeaders: false,
                 credentials: false,
@@ -108,12 +111,12 @@ export default {
             await this.groupSearch();
         },
         async getAdminInfo() {
-            if (this.sendStatus === true) {
+            if (this.$status.getAdmin === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.getAdmin = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'get',
                     url: '/memberService/member/admin',
                     params: {
@@ -122,7 +125,7 @@ export default {
                         searchValue: this.idx
                     }
                 });
-                this.sendStatus = false;
+                this.$status.getAdmin = false;
                 if (response.data.msg.resultCode == 0) {
                     this.adminInfo = response.data.msg.data[0];
                 } else {
@@ -130,7 +133,7 @@ export default {
                     history.back();
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.getAdmin = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -143,12 +146,12 @@ export default {
             }
         },
         async groupSearch() {
-            if (this.sendStatus === true) {
+            if (this.$status.getGroup === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.getGroup = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'get',
                     url: '/memberService/member/group',
                     params: {
@@ -156,12 +159,12 @@ export default {
                         searchValue: 'all'
                     }
                 });
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
                     this.groups = response.data.msg.data;
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.getGroup = false;
                 if (error.response) {
                     console.log(error.response);
                 } else if (error.request) {
@@ -193,22 +196,22 @@ export default {
                 $('input[name=phone]').focus();
                 return false;
             }
-            if (this.sendStatus === true) {
+            if (this.$status.setAdmin === true) {
                 return false;
             }
-            this.sendStatus = true;
+            this.$status.setAdmin = true;
             try {
-                let response = await this.sendInstance({
+                let response = await this.$http({
                     method: 'put',
                     url: '/memberService/member/admin/'+this.idx,
                     data: $('form[name=staffDetailFm]').serialize()
                 });
-                this.sendStatus = false;
+                this.$status.setAdmin = false;
                 if (response.status === 204) {
                     alert(this.$i18n.t('sucMsg.update_suc'));
                 }
             } catch (error) {
-                this.sendStatus = false;
+                this.$status.setAdmin = false;
                 if (error.response) {
                     console.log(error.response);
                     if (error.response.status == 400) {
