@@ -34,7 +34,7 @@
                         <label for="keyword" class="col-sm-1 col-form-label">{{ $t('pageMsg.staff.title3') }}</label>
                         <div class="form-group col-sm-1">
                             <select class="form-control" name="searchType">
-                                <option value="name">{{ $t('name') }}</option>
+                                <option value="mamberName">{{ $t('name') }}</option>
                             </select>
                         </div>
                         <div class="form-group col-sm-4">
@@ -135,11 +135,7 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/group',
-                    params: {
-                        searchTarget: 'group',
-                        searchValue: 'all'
-                    }
+                    url: '/godoService/manager/groups'
                 });
                 this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
@@ -168,12 +164,7 @@ export default {
                 try {
                     let response = await this.$http({
                         method: 'get',
-                        url: '/memberService/member/group',
-                        params: {
-                            searchTarget: 'team',
-                            searchType: 'group',
-                            searchValue: this.groupSelected
-                        }
+                        url: '/godoService/manager/groups/'+this.groupSelected
                     });
                     this.$status.getTeam = false;
                     if (response.data.msg.resultCode == 0) {
@@ -215,11 +206,13 @@ export default {
                 try {
                     let response = await this.$http({
                         method: 'get',
-                        url: '/memberService/member/admin',
+                        url: '/godoService/manager/members/groupCode',
                         params: {
                             secureYn: 'Y',
-                            searchType: 'gcode',
                             searchValue: this.teamSelected
+                        },
+                        headers: {
+                            reqMno: this.getUserSession.mno
                         }
                     });
                     this.$status.getAdmin = false;
@@ -257,11 +250,13 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/admin',
+                    url: '/godoService/manager/members/'+searchType,
                     params: {
                         secureYn: 'Y',
-                        searchType: searchType,
                         searchValue: searchValue
+                    },
+                    headers: {
+                        reqMno: this.getUserSession.mno
                     }
                 });
                 this.$status.getAdmin = false;
@@ -291,6 +286,11 @@ export default {
             this.admins = {};
             this.totalCount = 0;
             $('input[name=keyword]').val('');
+        }
+    },
+    computed: {
+        getUserSession () {
+            return this.$store.getters.getUser
         }
     },
     mounted: function() {

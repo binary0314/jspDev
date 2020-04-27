@@ -40,10 +40,16 @@
                         <li class="list-group-item">
                             <div class="form-row">
                                 <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffRegist.title8') }}</label>
-                                <div class="form-group col-md-4">
-                                    <select class="form-control" name="gcode[]">
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" v-model="groupSelected" @change="teamSearch">
                                         <option value="">{{ $t('defaultSelect') }}</option>
                                         <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode">{{ group.groupName }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" name="gcode[]">
+                                        <option value="">{{ $t('defaultSelect') }}</option>
+                                        <option v-for="team in teams" :key="team.groupCode" :value="team.groupCode">{{ team.groupName }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
@@ -94,13 +100,16 @@ export default {
     
      data: function() {
         return {
-            groups: {}
+            groups: {},
+            teams: {},
+            groupSelected: ''
         };
     },
     methods: {
         async init() {
             this.$status = {
                 getGroup: false,
+                getTeam: false,
                 setAdmin: false
             };
             this.$http = await axios.create({
@@ -119,11 +128,7 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/group',
-                    params: {
-                        searchTarget: 'team',
-                        searchValue: 'all'
-                    }
+                    url: '/godoService/manager/groups'
                 });
                 this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
@@ -139,6 +144,48 @@ export default {
                     console.log('Error', error.message);
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
+            }
+        },
+        async teamSearch() {
+            if (this.groupSelected == '') {
+                this.teams = {};
+            } else {
+                if (this.$status.getTeam === true) {
+                    return false;
+                }
+                this.$status.getTeam = true;
+                try {
+                    let response = await this.$http({
+                        method: 'get',
+                        url: '/godoService/manager/groups/'+this.groupSelected
+                    });
+                    this.$status.getTeam = false;
+                    if (response.data.msg.resultCode == 0) {
+                        if (response.data.msg.data.length <= 0) {
+                            for(let index in this.groups) {
+                                if (this.groups[index].groupCode == this.groupSelected) {
+                                    this.teams = [{
+                                        groupCode: this.groups[index].groupCode,
+                                        groupName: this.groups[index].groupName
+                                    }];
+                                    break;
+                                }
+                            }
+                        } else {
+                            this.teams = response.data.msg.data;
+                        }
+                    }
+                } catch (error) {
+                    this.$status.getTeam = false;
+                    if (error.response) {
+                        console.log(error.response);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    alert(this.$i18n.t('errMsg.http_err'));
+                }
             }
         },
         async onSave() {
@@ -197,15 +244,19 @@ export default {
             }
             this.$status.setAdmin = true;
             try {
+                $('input[name=mid]').prop('disabled', true);
                 let response = await this.$http({
                     method: 'post',
-                    url: '/memberService/member/admin',
-                    data: $('form[name=staffRegistFm]').serialize()
+                    url: '/godoService/manager/members/'+$('input[name=mid]').val(),
+                    data: $('form[name=staffRegistFm]').serialize(),
+                    headers: {
+                        reqMno: this.getUserSession.mno
+                    }
                 });
                 this.$status.setAdmin = false;
                 if (response.status === 201) {
                     alert(this.$i18n.t('sucMsg.regist_suc'));
-                    this.$router.push('/account/staff');
+                    this.$router.push('/account/staff/');
                 }
             } catch (error) {
                 this.$status.setAdmin = false;
@@ -223,6 +274,12 @@ export default {
                 }
                 alert(this.$i18n.t('errMsg.http_err'));
             }
+            $('input[name=mid]').prop('disabled', false);
+        }
+    },
+    computed: {
+        getUserSession () {
+            return this.$store.getters.getUser
         }
     },
     mounted: function() {

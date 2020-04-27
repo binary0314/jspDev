@@ -22,13 +22,13 @@
                                 <div class="form-group col-sm-11">
                                     <input type="text" readonly class="form-control-plaintext text-danger" :value="$t('pageMsg.info.title13')">
                                     <div class="row col-sm-4 py-1">
-                                        <input type="password" class="form-control" name="pass1" :placeholder="$t('pageMsg.info.title5')">
+                                        <input type="password" class="form-control" name="oldPass" :placeholder="$t('pageMsg.info.title5')">
                                     </div>
                                     <div class="row col-sm-4 py-1">
-                                        <input type="password" class="form-control" name="pass2" :placeholder="$t('pageMsg.info.title6')">
+                                        <input type="password" class="form-control" name="newPass" :placeholder="$t('pageMsg.info.title6')">
                                     </div>
                                     <div class="row col-sm-4 py-1">
-                                        <input type="password" class="form-control" name="pass3" :placeholder="$t('pageMsg.info.title7')">
+                                        <input type="password" class="form-control" name="confirm" :placeholder="$t('pageMsg.info.title7')">
                                     </div>
                                 </div>
                             </div>
@@ -98,11 +98,13 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/admin',
+                    url: '/godoService/manager/members/memberNumber',
                     params: {
                         secureYn: 'N',
-                        searchType: 'mno',
                         searchValue: this.idx
+                    },
+                    headers: {
+                        reqMno: this.getUserSession.mno
                     }
                 });
                 this.$status.getAdmin = false;
@@ -126,25 +128,25 @@ export default {
             }
         },
         async onSave() {
-            if ($('input[name=pass1]').val().length > 0 || $('input[name=pass2]').val().length > 0 || $('input[name=pass3]').val().length > 0) {
-                if ($('input[name=pass1]').val().length <= 0) {
+            if ($('input[name=oldPass]').val().length > 0 || $('input[name=newPass]').val().length > 0 || $('input[name=confirm]').val().length > 0) {
+                if ($('input[name=oldPass]').val().length <= 0) {
                     alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.info.title5'));
-                    $('input[name=pass1]').focus();
+                    $('input[name=oldPass]').focus();
                     return false;
                 }
-                if ($('input[name=pass2]').val().length <= 0) {
+                if ($('input[name=newPass]').val().length <= 0) {
                     alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.info.title6'));
-                    $('input[name=pass2]').focus();
+                    $('input[name=newPass]').focus();
                     return false;
                 }
-                if ($('input[name=pass3]').val().length <= 0) {
+                if ($('input[name=confirm]').val().length <= 0) {
                     alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.info.title7'));
-                    $('input[name=pass3]').focus();
+                    $('input[name=confirm]').focus();
                     return false;
                 }
-                if ($('input[name=pass2]').val() != $('input[name=pass3]').val()) {
+                if ($('input[name=newPass]').val() != $('input[name=confirm]').val()) {
                     alert(this.$i18n.t('pageMsg.info.title14'));
-                    $('input[name=pass3]').focus();
+                    $('input[name=confirm]').focus();
                     return false;
                 }
             }
@@ -165,12 +167,18 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'put',
-                    url: '/memberService/member/admin/'+this.idx,
-                    data: $('form[name=infoFm]').serialize()
+                    url: '/godoService/manager/members/'+this.idx,
+                    data: $('form[name=infoFm]').serialize(),
+                    headers: {
+                        reqMno: this.getUserSession.mno
+                    }
                 });
                 this.$status.setAdmin = false;
                 if (response.status === 204) {
                     alert(this.$i18n.t('sucMsg.update_suc'));
+                    $('input[name=oldPass]').val('');
+                    $('input[name=newPass]').val('');
+                    $('input[name=confirm]').val('');
                 }
             } catch (error) {
                 this.$status.setAdmin = false;

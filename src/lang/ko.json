@@ -151,6 +151,7 @@
     "btnSave":"저장",
     "btnModify":"수정",
     "btnDel":"삭제",
+    "btnCancel":"취소",
     "btnSearch":"검색",
     "btnReset":"초기화",
     "btnDetail":"상세",

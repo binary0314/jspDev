@@ -59,7 +59,7 @@ export default {
                 return false;
             }
             try {
-                let response = await axios.post(process.env.GRIDSOME_CORE_API_URL+'/memberService/login/admin', {
+                let response = await axios.post(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/login', {
                     mid: mid,
                     pass: pass
                 });

@@ -15,7 +15,7 @@
                                             {{ $t(gnb.lang) }}
                                         </button>&nbsp;
                                         <div class="dropdown-menu">
-                                            <a v-for="gnbSub in gnb.pages" :key="gnbSub.lang" class="dropdown-item" @click="menuSelected(gnbSub.link, gnbSub.lang)">{{ $t(gnbSub.lang) }}</a>
+                                            <a v-for="gnbSub in gnb.pages" :key="gnbSub.lang" class="dropdown-item" @click="menuSelected(gnbSub.link, gnbSub.lang, gnbSub.form)">{{ $t(gnbSub.lang) }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -38,10 +38,16 @@
                         <li class="list-group-item">
                             <div class="form-row">
                                 <label class="col-sm-1 col-form-label">{{ $t('pageMsg.menu_auth.title4') }}</label>
-                                <div class="form-group col-md-4">
-                                    <select class="form-control" v-model="teamSelected" @change="adminSearch">
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" v-model="groupSelected" @change="teamSearch">
                                         <option value="">{{ $t('defaultSelect') }}</option>
                                         <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode">{{ group.groupName }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" v-model="teamSelected" @change="adminSearch">
+                                        <option value="">{{ $t('defaultSelect') }}</option>
+                                        <option v-for="team in teams" :key="team.groupCode" :value="team.groupCode">{{ team.groupName }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
@@ -77,9 +83,12 @@ export default {
             menus: menus,
             menuAuth: {},
             groups: {},
+            teams: {},
             admins: {},
             pathSelected: '',
             langSelected: '',
+            pathChild: [],
+            groupSelected: '',
             teamSelected: '',
             adminSelected: ''
         };
@@ -88,6 +97,7 @@ export default {
         async init() {
             this.$status = {
                 getGroup: false,
+                getTeam: false,
                 getMenuAuth: false,
                 getAdmin: false,
                 addMenuAuth: false,
@@ -99,9 +109,9 @@ export default {
                 credentials: false,
                 timeout: 2000
             });
-            await this.menuSearch();
+            await this.groupSearch();
         },
-        async menuSearch() {
+        async groupSearch() {
             if (this.$status.getGroup === true) {
                 return false;
             }
@@ -109,11 +119,7 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/group',
-                    params: {
-                        searchTarget: 'team',
-                        searchValue: 'all'
-                    }
+                    url: '/godoService/manager/groups'
                 });
                 this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
@@ -131,9 +137,52 @@ export default {
                 alert(this.$i18n.t('errMsg.http_err'));
             }
         },
-        async menuSelected(path, lang) {
+        async teamSearch() {
+            if (this.groupSelected == '') {
+                this.teams = {};
+            } else {
+                if (this.$status.getTeam === true) {
+                    return false;
+                }
+                this.$status.getTeam = true;
+                try {
+                    let response = await this.$http({
+                        method: 'get',
+                        url: '/godoService/manager/groups/'+this.groupSelected
+                    });
+                    this.$status.getTeam = false;
+                    if (response.data.msg.resultCode == 0) {
+                        if (response.data.msg.data.length <= 0) {
+                            for(let index in this.groups) {
+                                if (this.groups[index].groupCode == this.groupSelected) {
+                                    this.teams = [{
+                                        groupCode: this.groups[index].groupCode,
+                                        groupName: this.groups[index].groupName
+                                    }];
+                                    break;
+                                }
+                            }
+                        } else {
+                            this.teams = response.data.msg.data;
+                        }
+                    }
+                } catch (error) {
+                    this.$status.getTeam = false;
+                    if (error.response) {
+                        console.log(error.response);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    alert(this.$i18n.t('errMsg.http_err'));
+                }
+            }
+        },
+        async menuSelected(path, lang, form) {
             this.pathSelected = path;
             this.langSelected = lang;
+            this.pathChild = form;
             if (this.$status.getMenuAuth === true) {
                 return false;
             }
@@ -141,9 +190,8 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/menu-auth',
+                    url: '/godoService/manager/menu-auth/path',
                     params: {
-                        searchType: 'path',
                         searchValue: path
                     }
                 });
@@ -174,11 +222,13 @@ export default {
                 try {
                     let response = await this.$http({
                         method: 'get',
-                        url: '/memberService/member/admin',
+                        url: '/godoService/manager/members/groupCode',
                         params: {
                             secureYn: 'Y',
-                            searchType: 'gcode',
                             searchValue: this.teamSelected
+                        },
+                        headers: {
+                            reqMno: this.getUserSession.mno
                         }
                     });
                     this.$status.getAdmin = false;
@@ -228,13 +278,32 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'post',
-                    url: '/memberService/member/menu-auth',
-                    data: {mno: this.adminSelected, path: this.pathSelected}
+                    url: '/godoService/manager/menu-auth/'+this.adminSelected,
+                    data: {
+                        path: this.pathSelected
+                    },
+                    headers: {
+                        reqMno: this.getUserSession.mno
+                    }
                 });
                 this.$status.addMenuAuth = false;
                 if (response.status === 201) {
+                    if (this.pathChild.length > 0) {
+                        for (let index in this.pathChild) {
+                            await this.$http({
+                                method: 'post',
+                                url: '/godoService/manager/menu-auth/'+this.adminSelected,
+                                data: {
+                                    path: this.pathChild[index]
+                                },
+                                headers: {
+                                    reqMno: this.getUserSession.mno
+                                }
+                            });
+                        }
+                    }
                     alert(this.$i18n.t('sucMsg.regist_suc'));
-                    await this.menuSelected(this.pathSelected, this.langSelected);
+                    await this.menuSelected(this.pathSelected, this.langSelected, this.pathChild);
                 }
             } catch (error) {
                 this.$status.addMenuAuth = false;
@@ -263,11 +332,30 @@ export default {
                 try {
                     let response = await this.$http({
                         method: 'delete',
-                        url: '/memberService/member/menu-auth/'+mno,
-                        data: {path: this.pathSelected}
+                        url: '/godoService/manager/menu-auth/'+mno,
+                        data: {
+                            path: this.pathSelected
+                        },
+                        headers: {
+                            reqMno: this.getUserSession.mno
+                        }
                     });
                     this.$status.delMenuAuth = false;
                     if (response.status === 204) {
+                        if (this.pathChild.length > 0) {
+                            for (let index in this.pathChild) {
+                                await this.$http({
+                                    method: 'delete',
+                                    url: '/godoService/manager/menu-auth/'+mno,
+                                    data: {
+                                        path: this.pathChild[index]
+                                    },
+                                    headers: {
+                                        reqMno: this.getUserSession.mno
+                                    }
+                                });
+                            }
+                        }
                         alert(this.$i18n.t('sucMsg.delete_suc'));
                         await this.menuSelected(this.pathSelected, this.langSelected);
                     }
@@ -289,6 +377,11 @@ export default {
                     }
                 }
             }
+        }
+    },
+    computed: {
+        getUserSession () {
+            return this.$store.getters.getUser
         }
     },
     mounted: function() {

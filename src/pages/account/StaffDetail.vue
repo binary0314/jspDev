@@ -29,19 +29,42 @@
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <div class="form-row">
+                            <div class="form-row" v-if="groupModify === false">
                                 <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title6') }}</label>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-4"> 
+                                    <template v-if="adminInfo.position == 'leader'">
+                                        <input type="text" readonly class="form-control-plaintext" :value="adminInfo.gname+' / '+$t('leader')">
+                                    </template>
+                                    <template v-else>
+                                        <input type="text" readonly class="form-control-plaintext" :value="adminInfo.gname+' / '+$t('follower')">
+                                    </template>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <button type="button" class="btn btn-outline-secondary" @click="groupChange(true)">{{ $t('btnModify') }}</button>&nbsp;
+                                </div>
+                            </div>
+                            <div class="form-row" v-else>
+                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title6') }}</label>
+                                <div class="form-group col-md-3">
+                                    <select class="form-control" v-model="groupSelected" @change="teamSearch">
+                                        <option value="">{{ $t('defaultSelect') }}</option>
+                                        <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode">{{ group.groupName }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
                                     <select class="form-control" name="gcode[]">
                                         <option value="">{{ $t('defaultSelect') }}</option>
-                                        <option v-for="group in groups" :key="group.groupCode" :value="group.groupCode" :selected="group.groupCode == adminInfo.gcode">{{ group.groupName }}</option>
+                                        <option v-for="team in teams" :key="team.groupCode" :value="team.groupCode">{{ team.groupName }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">
                                     <select class="form-control" name="position[]">
-                                        <option value="follower" :selected="adminInfo.position == 'follower'">{{ $t('follower') }}</option>
-                                        <option value="leader" :selected="adminInfo.position == 'leader'">{{ $t('leader') }}</option>
+                                        <option value="follower">{{ $t('follower') }}</option>
+                                        <option value="leader">{{ $t('leader') }}</option>
                                     </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <button type="button" class="btn btn-outline-secondary" @click="groupChange(false)">{{ $t('btnCancel') }}</button>&nbsp;
                                 </div>
                             </div>
                             <div class="form-row">
@@ -86,7 +109,10 @@ export default {
      data: function() {
         return {
             adminInfo: {},
-            groups: {}
+            groups: {},
+            teams: {},
+            groupSelected: '',
+            groupModify: false
         };
     },
     methods: {
@@ -98,6 +124,7 @@ export default {
             }
             this.$status = {
                 getGroup: false,
+                getTeam: false,
                 getAdmin: false,
                 setAdmin: false
             };
@@ -118,15 +145,17 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/admin',
+                    url: '/godoService/manager/members/memberNumber',
                     params: {
                         secureYn: 'N',
-                        searchType: 'mno',
                         searchValue: this.idx
+                    },
+                    headers: {
+                        reqMno: this.getUserSession.mno
                     }
                 });
                 this.$status.getAdmin = false;
-                if (response.data.msg.resultCode == 0) {
+                if (response.data.msg.resultCode == 0 && response.data.msg.data.length > 0) {
                     this.adminInfo = response.data.msg.data[0];
                 } else {
                     alert(this.$i18n.t('errMsg.http_err'));
@@ -153,11 +182,7 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'get',
-                    url: '/memberService/member/group',
-                    params: {
-                        searchTarget: 'team',
-                        searchValue: 'all'
-                    }
+                    url: '/godoService/manager/groups'
                 });
                 this.$status.getGroup = false;
                 if (response.data.msg.resultCode == 0) {
@@ -175,15 +200,62 @@ export default {
                 alert(this.$i18n.t('errMsg.http_err'));
             }
         },
+        async teamSearch() {
+            if (this.groupSelected == '') {
+                this.teams = {};
+            } else {
+                if (this.$status.getTeam === true) {
+                    return false;
+                }
+                this.$status.getTeam = true;
+                try {
+                    let response = await this.$http({
+                        method: 'get',
+                        url: '/godoService/manager/groups/'+this.groupSelected
+                    });
+                    this.$status.getTeam = false;
+                    if (response.data.msg.resultCode == 0) {
+                        if (response.data.msg.data.length <= 0) {
+                            for(let index in this.groups) {
+                                if (this.groups[index].groupCode == this.groupSelected) {
+                                    this.teams = [{
+                                        groupCode: this.groups[index].groupCode,
+                                        groupName: this.groups[index].groupName
+                                    }];
+                                    break;
+                                }
+                            }
+                        } else {
+                            this.teams = response.data.msg.data;
+                        }
+                    }
+                } catch (error) {
+                    this.$status.getTeam = false;
+                    if (error.response) {
+                        console.log(error.response);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    alert(this.$i18n.t('errMsg.http_err'));
+                }
+            }
+        },
         async onSave() {
             if ($('input[name=sdate]').val().length <= 0) {
                 alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.staffDetail.title5'));
                 $('input[name=sdate]').focus();
                 return false;
             }
-            if ($("select[name='gcode[]']:eq(0)").val().length <= 0) {
+            if (this.groupModify === true && $("select[name='gcode[]']:eq(0)").val().length <= 0) {
                 alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.staffDetail.title6'));
                 $("select[name='gcode[]']").focus();
+                return false;
+            }
+            if (this.groupModify === true && $("select[name='position[]']:eq(0)").val().length <= 0) {
+                alert(this.$i18n.t('errMsg.param_err')+' : '+this.$i18n.t('pageMsg.staffDetail.title6'));
+                $("select[name='position[]']").focus();
                 return false;
             }
             if ($('input[name=mail]').val().length <= 0) {
@@ -203,8 +275,11 @@ export default {
             try {
                 let response = await this.$http({
                     method: 'put',
-                    url: '/memberService/member/admin/'+this.idx,
-                    data: $('form[name=staffDetailFm]').serialize()
+                    url: '/godoService/manager/members/'+this.idx,
+                    data: $('form[name=staffDetailFm]').serialize(),
+                    headers: {
+                        reqMno: this.getUserSession.mno
+                    }
                 });
                 this.$status.setAdmin = false;
                 if (response.status === 204) {
@@ -227,6 +302,14 @@ export default {
                     alert(this.$i18n.t('errMsg.update_err'));
                 }
             }
+        },
+        groupChange(status) {
+            this.groupModify = status;
+        }
+    },
+    computed: {
+        getUserSession () {
+            return this.$store.getters.getUser
         }
     },
     mounted: function() {

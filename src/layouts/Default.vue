@@ -106,7 +106,7 @@ export default {
         async getLoginData() {
             try {
                 let sid = this.getCookie('gdsid');
-                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/memberService/login/admin', {
+                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/login/confirm', {
                     params: {
                         sid: sid
                     }
@@ -124,9 +124,8 @@ export default {
         },
         async getMenuAuthData() {
             try {
-                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/memberService/member/menu-auth', {
+                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/menu-auth/mid', {
                     params: {
-                        searchType: 'mid',
                         searchValue: this.getUserSession.mid
                     }
                 });
