@@ -86,8 +86,9 @@ export default {
             });
         },
         async loginCheck() {
+            let gdsid = this.getCookie('gdsid');
             if (this.pathname != '/login/') {
-                if (this.getCookie('gdsid') !== null) {
+                if (gdsid !== null) {
                     // store에 값이 있으면 통신하지 않고 그대로 사용
                     if (Object.keys(this.getUserSession).length <= 0) {
                         await this.getLoginData();
@@ -101,6 +102,10 @@ export default {
                 if (Object.keys(this.getMenuAuthSession).length <= 0) {
                     await this.getMenuAuthData();
                 }
+
+                // 쿠키 만료일 갱신
+                this.delCookie();
+                this.setCookie(gdsid);
             }
         },
         async getLoginData() {
@@ -152,7 +157,19 @@ export default {
         getCookie(name) {
             let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
             return value ? value[2]:null;
-        }
+        },
+        setCookie(sid) {
+            let d = new Date();                
+            d.setTime(d.getTime() + (3600 * 1000)); // 1시간
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = "gdsid=" + sid + ";" + expires + ";path=/";
+        },
+        delCookie() {
+            let d = new Date();                
+            d.setTime(d.getTime() - 1); // 쿠키 만료처리
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = "gdsid='';" + expires + ";path=/";
+        },
     },
     computed: {
         getUserSession () {
