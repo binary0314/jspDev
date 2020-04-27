@@ -61,7 +61,8 @@ export default {
             try {
                 let response = await axios.post(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/login', {
                     mid: mid,
-                    pass: pass
+                    pass: pass,
+                    lang: this.$root.$i18n.locale
                 });
                 if (response.data.msg.resultCode == 0) {
                     this.setCookie(response.data.msg.data.sid);
