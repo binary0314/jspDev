@@ -288,7 +288,7 @@ export default {
                 });
                 this.$status.addMenuAuth = false;
                 if (response.status === 201) {
-                    if (this.pathChild.length > 0) {
+                    if (Object.keys(this.pathChild).length > 0) {
                         for (let index in this.pathChild) {
                             await this.$http({
                                 method: 'post',
@@ -342,7 +342,7 @@ export default {
                     });
                     this.$status.delMenuAuth = false;
                     if (response.status === 204) {
-                        if (this.pathChild.length > 0) {
+                        if (Object.keys(this.pathChild).length > 0) {
                             for (let index in this.pathChild) {
                                 await this.$http({
                                     method: 'delete',
@@ -357,7 +357,7 @@ export default {
                             }
                         }
                         alert(this.$i18n.t('sucMsg.delete_suc'));
-                        await this.menuSelected(this.pathSelected, this.langSelected);
+                        await this.menuSelected(this.pathSelected, this.langSelected, this.pathChild);
                     }
                 } catch (error) {
                     this.$status.delMenuAuth = false;

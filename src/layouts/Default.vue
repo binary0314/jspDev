@@ -86,12 +86,30 @@ export default {
             });
         },
         async loginCheck() {
-            let gdsid = this.getCookie('gdsid');
+            let sid = this.getCookie('gdsid');
             if (this.pathname != '/login/') {
-                if (gdsid !== null) {
-                    // store에 값이 있으면 통신하지 않고 그대로 사용
-                    if (Object.keys(this.getUserSession).length <= 0) {
-                        await this.getLoginData();
+                if (sid !== null) {
+                    try {
+                        let sid = this.getCookie('gdsid');
+                        let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/login/confirm', {
+                            params: {
+                                sid: sid
+                            }
+                        });
+                        if (response.data.msg.resultCode == 0 && response.data.msg.data !== null) {
+                            // 쿠키 만료일 갱신
+                            this.delCookie();
+                            this.setCookie(sid);
+
+                            // 로그인 정보 저장
+                            await this.loginAssign(response.data.msg.data);
+                        } else {
+                            alert(this.$i18n.t('notLogin'));
+                            this.$router.push('/login/'); 
+                        }
+                    } catch (error) {
+                        alert(this.$i18n.t('notLogin'));
+                        this.$router.push('/login/'); 
                     }
                 } else {
                     alert(this.$i18n.t('notLogin'));
@@ -103,28 +121,10 @@ export default {
                     await this.getMenuAuthData();
                 }
 
-                // 쿠키 만료일 갱신
-                this.delCookie();
-                this.setCookie(gdsid);
-            }
-        },
-        async getLoginData() {
-            try {
-                let sid = this.getCookie('gdsid');
-                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/login/confirm', {
-                    params: {
-                        sid: sid
-                    }
-                });
-                if (response.data.msg.resultCode == 0 && response.data.msg.data !== null) {
-                    this.loginAssign(response.data.msg.data);
-                } else {
-                    alert(this.$i18n.t('notLogin'));
-                    this.$router.push('/login/'); 
+                // 언어설정 가져오기
+                if (this.getLang == null) {
+                    await this.getLangData();
                 }
-            } catch (error) {
-                alert(this.$i18n.t('notLogin'));
-                this.$router.push('/login/'); 
             }
         },
         async getMenuAuthData() {
@@ -135,7 +135,7 @@ export default {
                     }
                 });
                 if (response.data.msg.resultCode == 0) {
-                    this.menuAuthAssign(response.data.msg.data);
+                    await this.menuAuthAssign(response.data.msg.data);
                 }
             } catch (error) {
                 if (error.response) {
@@ -145,14 +145,35 @@ export default {
                 } else {
                     console.log('Error', error.message);
                 }
-                alert(this.$i18n.t('errMsg.http_err'));
             }
         },
-        loginAssign(adminInfo) {
+        async getLangData() {
+            try {
+                let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/language/'+this.getUserSession.mno);
+                if (response.data.msg.resultCode == 0 && response.data.msg.data.lang !== null) {
+                    this.setLang(response.data.msg.data.lang);
+                }
+            } catch (error) {
+                if (error.response) {
+                    console.log(error.response);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+            }
+        },
+        async loginAssign(adminInfo) {
             this.$store.dispatch('setAdminData', adminInfo)
         },
-        menuAuthAssign(menuList) {
+        async menuAuthAssign(menuList) {
             this.$store.dispatch('setMenuAuthList', menuList)
+        },
+        async setLang(lang) {
+            this.$store.dispatch('setLang', lang);
+            if (['jp', 'ko'].includes(lang)) {
+                this.$root.$i18n.locale = (lang == 'ko' ? lang:'ja');
+            }
         },
         getCookie(name) {
             let value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
@@ -169,7 +190,7 @@ export default {
             d.setTime(d.getTime() - 1); // 쿠키 만료처리
             let expires = "expires="+ d.toUTCString();
             document.cookie = "gdsid='';" + expires + ";path=/";
-        },
+        }
     },
     computed: {
         getUserSession () {
@@ -177,6 +198,9 @@ export default {
         },
         getMenuAuthSession () {
             return this.$store.getters.getMenuAuth
+        },
+        getLang() {
+            return this.$store.getters.getLang
         }
     },
     mounted: function() {

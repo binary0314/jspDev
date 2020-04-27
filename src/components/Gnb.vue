@@ -13,8 +13,8 @@
                                 <small>language</small>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#" role="button" @click="setLang('ko')">한국어</a>
-                                <a class="dropdown-item" href="#" role="button" @click="setLang('ja')">日本</a>
+                                <a class="dropdown-item" href="#" role="button" @click="setLangData('ko')">한국어</a>
+                                <a class="dropdown-item" href="#" role="button" @click="setLangData('jp')">日本</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -60,13 +60,35 @@ export default {
         };
     },
     methods: {
+        async setLangData(lang) {
+            try {
+                let response = await axios.post(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/language/'+lang, {
+                    mno: this.getUserSession.mno
+                });
+                if (response.status === 204) {
+                    await this.setLang(lang);
+                }
+            } catch (error) {
+                if (error.response) {
+                    console.log(error.response);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                alert(this.$i18n.t('errMsg.http_err'));
+            }
+        },
+        async setLang(lang) {
+            if (['jp', 'ko'].includes(lang)) {
+                this.$store.dispatch('setLang', lang);
+                this.$root.$i18n.locale = (lang == 'ko' ? lang:'ja');
+            }
+        },
         setData() {
             if (typeof window !== "undefined") {
                 this.pathname = window.location.pathname;
             }
-        },
-        setLang(lang) {
-            this.$root.$i18n.locale = lang;
         },
         logout() {
             this.$router.push('/login/'); 

@@ -5,6 +5,9 @@ const actions = {
     },
     setMenuAuthList ({ commit }, payload) {
         commit('setMenuAuthList', payload)
+    },
+    setLang ({ commit }, payload) {
+        commit('setLang', payload)
     }
 }
 

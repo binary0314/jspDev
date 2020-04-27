@@ -5,6 +5,9 @@ const getters = {
     },
     getMenuAuth: (state) => {
         return state.auth.menus
+    },
+    getLang: (state) => {
+        return state.lang
     }
 }
 

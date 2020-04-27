@@ -269,10 +269,11 @@ export default {
                     }
                 } else if (error.request) {
                     console.log(error.request);
+                    alert(this.$i18n.t('errMsg.http_err'));
                 } else {
                     console.log('Error', error.message);
+                    alert(this.$i18n.t('errMsg.http_err'));
                 }
-                alert(this.$i18n.t('errMsg.http_err'));
             }
             $('input[name=mid]').prop('disabled', false);
         }

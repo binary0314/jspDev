@@ -66,26 +66,18 @@
         "lang":"menus.platform_regist.title",
         "path":"platform-regist",
         "links":[
-            "/platform-goods/basic/",
-            "/platform-goods/promotion/",
-            "/platform-goods/server/"
+            "/platform-regist/shopby-regist/",
+            "/platform-regist/popup/",
+            "/platform-regist/domain/"
         ],
         "pages": [
             {
                 "lang":"menus.platform_regist.shopby_regist",
                 "link":"/platform-regist/shopby-regist/",
-                "form": [],
-                "subId":"menuBtnShopbyRegist",
-                "sub": [
-                    {
-                        "lang":"menus.platform_regist.shopby_regist",
-                        "link":"/platform-regist/shopby-regist/"
-                    },
-                    {
-                        "lang":"menus.platform_regist.shopby_regist_detail",
-                        "link":"/platform-regist/shopby-regist-detail/"
-                    }
-                ]
+                "form": [
+                    "/platform-regist/shopby-regist-detail/"
+                ],
+                "sub": []
             },
             {
                 "lang":"menus.platform_regist.popup",
@@ -105,9 +97,9 @@
         "lang":"menus.addservice.title",
         "path":"addservice",
         "links":[
-            "/platform-goods/basic/",
-            "/platform-goods/promotion/",
-            "/platform-goods/server/"
+            "/addservice/pg/",
+            "/addservice/taxbill/",
+            "/addservice/secure-server/"
         ],
         "pages": [
             {
@@ -134,9 +126,10 @@
         "lang":"menus.finance.title",
         "path":"finance",
         "links":[
-            "/platform-goods/basic/",
-            "/platform-goods/promotion/",
-            "/platform-goods/server/"
+            "/finance/termination/",
+            "/finance/receipts/",
+            "/finance/neon/",
+            "/finance/taxbill/"
         ],
         "pages": [
             {
@@ -169,9 +162,8 @@
         "lang":"menus.board.title",
         "path":"board",
         "links":[
-            "/platform-goods/basic/",
-            "/platform-goods/promotion/",
-            "/platform-goods/server/"
+            "/board/inquiry/",
+            "/board/notice/"
         ],
         "pages": [
             {
@@ -192,9 +184,7 @@
         "lang":"menus.statistics.title",
         "path":"statistics",
         "links":[
-            "/platform-goods/basic/",
-            "/platform-goods/promotion/",
-            "/platform-goods/server/"
+            "/statistics/shop-regist/"
         ],
         "pages": [
             {
@@ -209,9 +199,9 @@
         "lang":"menus.log.title",
         "path":"log",
         "links":[
-            "/platform-goods/basic/",
-            "/platform-goods/promotion/",
-            "/platform-goods/server/"
+            "/log/mail/",
+            "/log/login/",
+            "/log/auth/"
         ],
         "pages": [
             {

@@ -9,10 +9,14 @@ const mutations = {
         }
     },
     setMenuAuthList(state, payload) {
+        state.auth.mno = payload.mno
         state.auth.menus = []
         for (let i in payload) {
             state.auth.menus.push(payload[i].path)
         }
+    },
+    setLang(state, payload) {
+        state.lang = (payload === 'ko' ? payload:'ja')
     }
 };
 
