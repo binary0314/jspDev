@@ -8,12 +8,12 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.menu_auth.title1') }}</label>
-                                <div class="form-group col-sm-11 row">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.menu_auth.title1') }}</label>
+                                <div class="form-group col-sm-10 row">
                                     <div v-for="gnb in menus" :key="gnb.lang" class="dropdown">
-                                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split m-1" data-toggle="dropdown">
                                             {{ $t(gnb.lang) }}
-                                        </button>&nbsp;
+                                        </button>
                                         <div class="dropdown-menu">
                                             <a v-for="gnbSub in gnb.pages" :key="gnbSub.lang" class="dropdown-item" @click="menuSelected(gnbSub.link, gnbSub.lang, gnbSub.form)">{{ $t(gnbSub.lang) }}</a>
                                         </div>
@@ -21,23 +21,23 @@
                                 </div>
                             </div>
                             <div class="form-row" v-if="pathSelected != '' && langSelected != ''">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.menu_auth.title2') }}</label>
-                                <div class="form-group col-sm-11">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.menu_auth.title2') }}</label>
+                                <div class="form-group col-sm-10">
                                     <input type="text" readonly class="form-control-plaintext" :value="$t(langSelected)">
                                 </div>
                             </div>
                             <div class="form-row" v-if="pathSelected != '' && langSelected != ''">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.menu_auth.title3') }}</label>
-                                <span v-for="mauth in menuAuth" :key="mauth.mid">
-                                    <button type="button" class="btn btn-light" @click="removeManager(mauth.mno)" style="margin-bottom: 5px;">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.menu_auth.title3') }}</label>
+                                <div class="form-group col-sm-10">
+                                    <button type="button" v-for="mauth in menuAuth" :key="mauth.mid" class="btn btn-light m-1" @click="removeManager(mauth.mno)">
                                         {{ mauth.name }}<i class="fa fa-times text-danger"></i>
-                                    </button>&nbsp;
-                                </span>
+                                    </button>
+                                </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.menu_auth.title4') }}</label>
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.menu_auth.title4') }}</label>
                                 <div class="form-group col-md-3">
                                     <select class="form-control" v-model="groupSelected" @change="teamSearch">
                                         <option value="">{{ $t('defaultSelect') }}</option>
@@ -165,6 +165,7 @@ export default {
                         } else {
                             this.teams = response.data.msg.data;
                         }
+                        this.teamSelected = '';
                     }
                 } catch (error) {
                     this.$status.getTeam = false;
@@ -235,6 +236,7 @@ export default {
                     if (response.data.msg.resultCode == 0) {
                         this.admins = response.data.msg.data;
                     }
+                    this.adminSelected = '';
                 } catch (error) {
                     this.$status.getAdmin = false;
                     if (error.response) {

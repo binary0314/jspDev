@@ -13,7 +13,7 @@
             <div class="card-body">
                 <form name="staffListFm" class="form-horizontal" role="form" @submit.prevent="onSearch">
                     <div class="form-row">
-                        <label for="inputSelect" class="col-sm-1 col-form-label">{{ $t('pageMsg.staff.title1') }}</label>
+                        <label for="inputSelect" class="col-sm-2 col-form-label">{{ $t('pageMsg.staff.title1') }}</label>
                         <div class="form-group col-md-4">
                             <select id="inputSelect" class="form-control" v-model="groupSelected" @change="teamSearch">
                                 <option value="">{{ $t('defaultSelect') }}</option>
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label for="inputSelect" class="col-sm-1 col-form-label">{{ $t('pageMsg.staff.title2') }}</label>
+                        <label for="inputSelect" class="col-sm-2 col-form-label">{{ $t('pageMsg.staff.title2') }}</label>
                         <div class="form-group col-md-4">
                             <select id="inputSelect" class="form-control" v-model="teamSelected" @change="adminSearch">
                                 <option value="">{{ $t('defaultSelect') }}</option>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label for="keyword" class="col-sm-1 col-form-label">{{ $t('pageMsg.staff.title3') }}</label>
+                        <label for="keyword" class="col-sm-2 col-form-label">{{ $t('pageMsg.staff.title3') }}</label>
                         <div class="form-group col-sm-1">
                             <select class="form-control" name="searchType">
                                 <option value="mamberName">{{ $t('name') }}</option>
@@ -181,6 +181,7 @@ export default {
                         } else {
                             this.teams = response.data.msg.data;
                         }
+                        this.teamSelected = '';
                     }
                 } catch (error) {
                     this.$status.getTeam = false;

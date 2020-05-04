@@ -7,39 +7,39 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffRegist.title2') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffRegist.title2') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="name" value="">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title3') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title3') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="mid" value="">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffRegist.title4') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffRegist.title4') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="mcode" value="">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title5') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title5') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="sdate" value="" placeholder="yyyy-mm-dd">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffRegist.title6') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffRegist.title6') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="password" class="form-control" name="pass" value="">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title7') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title7') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="password" class="form-control" name="confirm" value="">
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffRegist.title8') }}</label>
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffRegist.title8') }}</label>
                                 <div class="form-group col-md-3">
                                     <select class="form-control" v-model="groupSelected" @change="teamSearch">
                                         <option value="">{{ $t('defaultSelect') }}</option>
@@ -60,22 +60,22 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffRegist.title9') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffRegist.title9') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="mail" value="">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title10') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title10') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="phone" value="" :placeholder="$t('pageMsg.staffRegist.title13')">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffRegist.title11') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffRegist.title11') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="inline" value="" :placeholder="$t('pageMsg.staffRegist.title14')">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title12') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffRegist.title12') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="ip" value="">
                                 </div>
                             </div>
@@ -244,10 +244,9 @@ export default {
             }
             this.$status.setAdmin = true;
             try {
-                $('input[name=mid]').prop('disabled', true);
                 let response = await this.$http({
                     method: 'post',
-                    url: '/godoService/manager/members/'+$('input[name=mid]').val(),
+                    url: '/godoService/manager/members',
                     data: $('form[name=staffRegistFm]').serialize(),
                     headers: {
                         reqMno: this.getUserSession.mno
@@ -275,7 +274,6 @@ export default {
                     alert(this.$i18n.t('errMsg.http_err'));
                 }
             }
-            $('input[name=mid]').prop('disabled', false);
         }
     },
     computed: {

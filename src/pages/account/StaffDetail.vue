@@ -8,29 +8,29 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title2') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffDetail.title2') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.name">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title3') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title3') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.mid">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title4') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffDetail.title4') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.mcode">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title5') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title5') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="sdate" :value="adminInfo.sdate" placeholder="yyyy-mm-dd">
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <div class="form-row" v-if="groupModify === false">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title6') }}</label>
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffDetail.title6') }}</label>
                                 <div class="form-group col-md-4"> 
                                     <template v-if="adminInfo.position == 'leader'">
                                         <input type="text" readonly class="form-control-plaintext" :value="adminInfo.gname+' / '+$t('leader')">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="form-row" v-else>
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title6') }}</label>
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffDetail.title6') }}</label>
                                 <div class="form-group col-md-3">
                                     <select class="form-control" v-model="groupSelected" @change="teamSearch">
                                         <option value="">{{ $t('defaultSelect') }}</option>
@@ -68,23 +68,29 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title7') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffDetail.title7') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="mail" :value="adminInfo.mail">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title8') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title8') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="phone" :value="adminInfo.phone" :placeholder="$t('pageMsg.staffRegist.title11')">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.staffDetail.title9') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffDetail.title9') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="inline" :value="adminInfo.inline" :placeholder="$t('pageMsg.staffRegist.title12')">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title10') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.staffDetail.title10') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="ip" :value="adminInfo.ip">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.staffDetail.title13') }}</label>
+                                <div class="form-group col-sm-2">
+                                    <button type="button" class="btn btn-outline-secondary" @click="sendTmpPass">{{ $t('btnSend') }}</button>
                                 </div>
                             </div>
                         </li>
@@ -126,7 +132,8 @@ export default {
                 getGroup: false,
                 getTeam: false,
                 getAdmin: false,
-                setAdmin: false
+                setAdmin: false,
+                setTmpPass: false
             };
             this.$http = axios.create({
                 baseURL: process.env.GRIDSOME_CORE_API_URL,
@@ -239,6 +246,41 @@ export default {
                         console.log('Error', error.message);
                     }
                     alert(this.$i18n.t('errMsg.http_err'));
+                }
+            }
+        },
+        async sendTmpPass() {
+            if (confirm(this.$i18n.t('pageMsg.staffDetail.title14')) && this.$status.setTmpPass === false) {
+                this.$status.setTmpPass = true;
+                try {
+                    let response = await this.$http({
+                        method: 'post',
+                        url: '/godoService/manager/members/tmpPass',
+                        data: {mno: this.idx, mid: this.adminInfo.mid},
+                        headers: {
+                            reqMno: this.getUserSession.mno
+                        }
+                    });
+                    this.$status.setTmpPass = false;
+                    if (response.status === 204) {
+                        alert(this.$i18n.t('pageMsg.staffDetail.title15'));
+                    }
+                } catch (error) {
+                    this.$status.setTmpPass = false;
+                    if (error.response) {
+                        console.log(error.response);
+                        if (error.response.status == 400) {
+                            alert(error.response.data.msg.reason);
+                        } else {
+                            alert(this.$i18n.t('errMsg.update_err'));
+                        }
+                    } else if (error.request) {
+                        console.log(error.request);
+                        alert(this.$i18n.t('errMsg.update_err'));
+                    } else {
+                        console.log('Error', error.message);
+                        alert(this.$i18n.t('errMsg.update_err'));
+                    }
                 }
             }
         },

@@ -1,37 +1,39 @@
 <template>
     <div class="container-fluid p-0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-        
-        <!-- goms gnb load -->
-        <template v-if="pathname != '/login/'">
-            <Gnb/>
-        </template>
-        <div class="row no-gutters">
-            <div class="col-md-12">
-                <div class="wrapper d-flex align-items-stretch">
-                    <nav id="sidebar" v-if="pathname != '/' && pathname != '/login/'">
-                        <div class="custom-menu">
-                            <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                                <i class="fa fa-bars"></i>
-                                <span class="sr-only">Toggle Menu</span>
-                            </button>
-                        </div>
-                        <!-- goms lnb load -->
-                        <Lnb/>
-                    </nav>
 
-                    <div id="content" class="p-4 p-md-5 pt-5">
-                        <!-- goms contents load -->
-                        <template v-if="pathname == '/' || pathname == '/login/' || getMenuAuthSession.includes(pathname)">
-                            <slot/>
-                        </template>
-                        <template v-else>
-                            {{ $t('notAuth') }}
-                        </template>
+        <template v-if="pathname == '/login/' || Object.keys(getUserSession).length > 0">
+            <!-- goms gnb load -->
+            <template v-if="pathname != '/login/'">
+                <Gnb/>
+            </template>
+            <div class="row no-gutters">
+                <div class="col-md-12">
+                    <div class="wrapper d-flex align-items-stretch">
+                        <nav id="sidebar" v-if="pathname != '/' && pathname != '/login/'">
+                            <div class="custom-menu">
+                                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                                    <i class="fa fa-bars"></i>
+                                    <span class="sr-only">Toggle Menu</span>
+                                </button>
+                            </div>
+                            <!-- goms lnb load -->
+                            <Lnb/>
+                        </nav>
+
+                        <div id="content" class="p-4 p-md-5 pt-5">
+                            <!-- goms contents load -->
+                            <template v-if="pathname == '/' || pathname == '/login/' || getMenuAuthSession.includes(pathname)">
+                                <slot/>
+                            </template>
+                            <template v-else>
+                                {{ $t('notAuth') }}
+                            </template>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
 </template>
 
@@ -90,7 +92,6 @@ export default {
             if (this.pathname != '/login/') {
                 if (sid !== null) {
                     try {
-                        let sid = this.getCookie('gdsid');
                         let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/login/confirm', {
                             params: {
                                 sid: sid
@@ -104,16 +105,22 @@ export default {
                             // 로그인 정보 저장
                             await this.loginAssign(response.data.msg.data);
                         } else {
-                            alert(this.$i18n.t('notLogin'));
+                            if (this.pathname != '/') {
+                                alert(this.$i18n.t('notLogin'));
+                            }
                             this.$router.push('/login/'); 
                         }
                     } catch (error) {
-                        alert(this.$i18n.t('notLogin'));
+                        if (this.pathname != '/') {
+                            alert(this.$i18n.t('notLogin'));
+                        }
                         this.$router.push('/login/'); 
                     }
                 } else {
-                    alert(this.$i18n.t('notLogin'));
-                    this.$router.push('/login/');   
+                    if (this.pathname != '/') {
+                        alert(this.$i18n.t('notLogin'));
+                    }
+                    this.$router.push('/login/');
                 }
 
                 // 메뉴권한 가져오기
@@ -150,8 +157,8 @@ export default {
         async getLangData() {
             try {
                 let response = await axios.get(process.env.GRIDSOME_CORE_API_URL+'/godoService/manager/language/'+this.getUserSession.mno);
-                if (response.data.msg.resultCode == 0 && response.data.msg.data.lang !== null) {
-                    this.setLang(response.data.msg.data.lang);
+                if (response.data.msg.resultCode == 0 && response.data.msg.data !== null) {
+                    this.setLang(response.data.msg.data);
                 }
             } catch (error) {
                 if (error.response) {
@@ -203,7 +210,7 @@ export default {
             return this.$store.getters.getLang
         }
     },
-    mounted: function() {
+    created: function() {
         this.init();
     }
 }

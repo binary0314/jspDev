@@ -8,18 +8,18 @@
                     <ul class="list-group">
                         <li class="list-group-item">
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.info.title1') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.info.title1') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.mid">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.info.title2') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.info.title2') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" readonly class="form-control-plaintext" :value="adminInfo.name">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.info.title3') }}<br>({{ $t('pageMsg.info.title4') }})</label>
-                                <div class="form-group col-sm-11">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.info.title3') }}<br>({{ $t('pageMsg.info.title4') }})</label>
+                                <div class="form-group col-sm-10">
                                     <input type="text" readonly class="form-control-plaintext text-danger" :value="$t('pageMsg.info.title13')">
                                     <div class="row col-sm-4 py-1">
                                         <input type="password" class="form-control" name="oldPass" :placeholder="$t('pageMsg.info.title5')">
@@ -33,22 +33,22 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.info.title8') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.info.title8') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="phone" :value="adminInfo.phone" :placeholder="$t('pageMsg.info.title11')">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">email</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">email</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="mail" :value="adminInfo.mail">
                                 </div>
                             </div>
                             <div class="form-row">
-                                <label class="col-sm-1 col-form-label">{{ $t('pageMsg.info.title9') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 col-form-label">{{ $t('pageMsg.info.title9') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="ip" :value="adminInfo.ip">
                                 </div>
-                                <label class="col-sm-1 ml-5 col-form-label">{{ $t('pageMsg.info.title10') }}</label>
-                                <div class="form-group col-sm-4">
+                                <label class="col-sm-2 ml-5 col-form-label">{{ $t('pageMsg.info.title10') }}</label>
+                                <div class="form-group col-sm-3">
                                     <input type="text" class="form-control" name="inline" :value="adminInfo.inline" :placeholder="$t('pageMsg.info.title12')">
                                 </div>
                             </div>
